@@ -18,6 +18,10 @@ struct SignUpView: View {
     @State var bio = ""
     @State var show = false
     @State var error_msg = ""
+    @State var picker = false
+    @State var image = UIImage()
+    @State var selected = false
+    @State var show_sheet = false
     @EnvironmentObject var session: Session
     
     func signUp () {
@@ -54,7 +58,12 @@ struct SignUpView: View {
                 HStack (alignment: .top) {
                     Text("Register")
                     Spacer()
-                    Image(systemName: "camera")
+                    Button(action: {
+                        self.show_sheet.toggle()
+                    }) {
+                        Image(systemName: "camera")
+                    }
+                    
                 }
                 .font(.title)
                 .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -66,19 +75,35 @@ struct SignUpView: View {
                     .frame(height: 40)
                 
                 HStack (alignment: .top) {
-                    Image(systemName: "person")
+                    if self.selected != false {
+                        Image(uiImage: image)
                         .resizable()
-                        .padding()
-                        .frame(width: 80,
-                               height: 80,
-                               alignment: .topLeading)
+                        .frame(width: 100,
+                             height: 100,
+                             alignment: .topLeading)
                         .background(Color.gray)
                         .foregroundColor(Color.white)
                         .clipShape(Circle())
                         .shadow(radius: 10)
+                    }
+                    else {
+                        Image(systemName: "person")
+                        
+                        .resizable()
+                        
+                        .padding()
+                        .frame(width: 100,
+                            height: 100,
+                            alignment: .topLeading)
+                        .background(Color.gray)
+                        .foregroundColor(Color.white)
+                        .clipShape(Circle())
+                        .shadow(radius: 10)
+                    }
                     Spacer()
                         .frame(width: 40)
                     Text("Set Display Picture")
+                        .foregroundColor(Color.white)
                     Spacer()
                         .frame(width: 60)
                 }
@@ -131,14 +156,62 @@ struct SignUpView: View {
                 Alert(title: Text(self.error_msg))
             }
         }
+        .sheet(isPresented: $picker, content: {
+            ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected)
+        })
+        .actionSheet(isPresented: $show_sheet, content: {
+            ActionSheet(title: Text("Take a picture or select one from the gallery"), buttons: [
+                .default(Text("Take a picture")),
+                .default(Text("Select an existing picture"), action: {
+                    self.picker.toggle()
+                }),
+                .cancel()])
+        })
         .background(
             Image("background")
-            .resizable()
+                .resizable()
                 .frame(width:1400, height: 925)
         )
     }
 }
 
+struct ImagePickerView: UIViewControllerRepresentable {
+    
+    @Binding var isPresented: Bool
+    @Binding var selectedImage: UIImage
+    @Binding var selected: Bool
+    
+    func makeCoordinator() -> ImagePickerView.Coordinator {
+        return Coordinator(parent: self)
+    }
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerView>) -> UIImagePickerController {
+        let controller = UIImagePickerController()
+        controller.delegate = context.coordinator
+        return controller
+    }
+    
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        
+        let parent: ImagePickerView
+        init (parent: ImagePickerView) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let selectedImage = info[.originalImage] as? UIImage {
+                print(selectedImage)
+                self.parent.selectedImage = selectedImage
+                self.parent.selected = true
+            }
+            self.parent.isPresented = false
+        }
+    }
+    
+    func updateUIViewController(_ uiViewController: ImagePickerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ImagePickerView>) {
+        //
+    }
+}
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
