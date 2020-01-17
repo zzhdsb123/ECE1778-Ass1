@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Firebase
-
+import FirebaseFirestore
 
 struct SignUpView: View {
     @State var email = ""
@@ -37,10 +37,10 @@ struct SignUpView: View {
                     self.error_msg =  err!.localizedDescription
                     }
                 else {
-                    let db = Database.database().reference().child("users")
+                    let db = Firestore.firestore().collection("users")
                     let email = self.email
-                    let key = email.replacingOccurrences(of: ".", with: ",")
-                    db.child(key).setValue(["username": self.username, "bio": self.bio])
+                    let key = email
+                    db.document(key).setData(["username": self.username, "bio": self.bio])
                     self.session.signIn(email: self.email)
                 }
                 self.show.toggle()

@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 import Combine
-import Firebase
+import FirebaseFirestore
 
 class Session: ObservableObject {
     @Published var email: String?
@@ -19,13 +19,16 @@ class Session: ObservableObject {
     
     func signIn (email: String) {
         self.email = email
-        let key = email.replacingOccurrences(of: ".", with: ",")
-        let db = Database.database().reference().child("users")
-        db.child("\(key)/bio").observeSingleEvent(of: .value) { (snapshot) in
-            self.bio = snapshot.value as? String
-        }
-        db.child("\(key)/username").observeSingleEvent(of: .value) { (snapshot) in
-            self.username = snapshot.value as? String
+        let key = email
+        let db = Firestore.firestore().collection("users")
+        db.document(key).getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                self.bio = snapshot?.data()?["bio"] as? String ?? ""
+                self.username = snapshot?.data()?["username"] as? String ?? ""
+            }
         }
         self.isLoggedIn = true
     }
