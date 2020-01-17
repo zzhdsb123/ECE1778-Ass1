@@ -14,10 +14,10 @@
 		F51DECF523CFEA4800C9BA27 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DECF423CFEA4800C9BA27 /* SignInView.swift */; };
 		F51DECFD23D10A3300C9BA27 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DECFC23D10A3300C9BA27 /* Session.swift */; };
 		F51DECFF23D10D2900C9BA27 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DECFE23D10D2900C9BA27 /* AuthView.swift */; };
+		F526E8DF23D1656A0079E8DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F526E8DE23D1656A0079E8DC /* Assets.xcassets */; };
 		F585491123C6E11000189050 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F585491023C6E11000189050 /* AppDelegate.swift */; };
 		F585491323C6E11000189050 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F585491223C6E11000189050 /* SceneDelegate.swift */; };
 		F585491523C6E11000189050 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F585491423C6E11000189050 /* ContentView.swift */; };
-		F585491723C6E11200189050 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F585491623C6E11200189050 /* Assets.xcassets */; };
 		F585491A23C6E11200189050 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F585491923C6E11200189050 /* Preview Assets.xcassets */; };
 		F585491D23C6E11200189050 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F585491B23C6E11200189050 /* LaunchScreen.storyboard */; };
 		F585492823C6E11200189050 /* scratch_uiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F585492723C6E11200189050 /* scratch_uiTests.swift */; };
@@ -55,11 +55,11 @@
 		F51DECF423CFEA4800C9BA27 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F51DECFC23D10A3300C9BA27 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		F51DECFE23D10D2900C9BA27 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		F526E8DE23D1656A0079E8DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F585490D23C6E11000189050 /* scratch_ui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scratch_ui.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F585491023C6E11000189050 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F585491223C6E11000189050 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F585491423C6E11000189050 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		F585491623C6E11200189050 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F585491923C6E11200189050 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F585491C23C6E11200189050 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F585491E23C6E11200189050 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -142,8 +142,8 @@
 				F585491023C6E11000189050 /* AppDelegate.swift */,
 				F585491223C6E11000189050 /* SceneDelegate.swift */,
 				F585491423C6E11000189050 /* ContentView.swift */,
-				F585491623C6E11200189050 /* Assets.xcassets */,
 				F585491B23C6E11200189050 /* LaunchScreen.storyboard */,
+				F526E8DE23D1656A0079E8DC /* Assets.xcassets */,
 				F5A1DBC823CD2E6C00A91229 /* GoogleService-Info.plist */,
 				F585491E23C6E11200189050 /* Info.plist */,
 				F51DECF223CFE9DD00C9BA27 /* SignUpView.swift */,
@@ -302,8 +302,8 @@
 			files = (
 				F585491D23C6E11200189050 /* LaunchScreen.storyboard in Resources */,
 				F5A1DBC923CD2E6D00A91229 /* GoogleService-Info.plist in Resources */,
+				F526E8DF23D1656A0079E8DC /* Assets.xcassets in Resources */,
 				F585491A23C6E11200189050 /* Preview Assets.xcassets in Resources */,
-				F585491723C6E11200189050 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

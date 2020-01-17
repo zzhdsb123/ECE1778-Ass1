@@ -35,7 +35,7 @@ struct SignInView: View {
         NavigationView {
             HStack(alignment: .top) {
                 VStack() {
-                    Text("Login to you app")
+                    Text("My Instagram")
                         .font(.title)
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                         .padding()
@@ -47,10 +47,17 @@ struct SignInView: View {
                         .frame(height: 40)
                     TextField("Email", text: $email)
                         .padding()
+                        .background(Color(red: 200 / 255, green: 200 / 255, blue: 200 / 255))
+                        .padding()
+                        .opacity(0.8)
+                    
                     SecureField("Password", text: $password)
                         .padding()
+                        .background(Color(red: 200 / 255, green: 200 / 255, blue: 200 / 255))
+                        .padding()
+                        .opacity(0.8)
                     
-                    NavigationLink(destination: SignUpView()) {
+                    Button(action: signIn) {
                         Text("LOG IN")
                             .font(.subheadline)
                             .frame(maxWidth: .infinity)
@@ -66,7 +73,6 @@ struct SignInView: View {
                             .padding()
                         Text("OR")
                             .padding()
-                            .background(Color.white)
                             .foregroundColor(Color(red: 158 / 255, green: 158 / 255, blue: 158 / 255))
                     }
                     
@@ -81,28 +87,22 @@ struct SignInView: View {
                         .shadow(radius: 10)
                     }
                     
-                    Button(action: signIn) {
-                    Text(/*@START_MENU_TOKEN@*/"Button"/*@END_MENU_TOKEN@*/)
-                        .font(.subheadline)
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(Color.white)
-                        .padding()
-                        .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
-                        .padding()
-                        .shadow(radius: 10)
-                    }
-                    
                     Spacer()
          }
             }
-            .navigationBarTitle("Home", displayMode: .inline)
-            .navigationBarHidden(false)
-            .navigationBarBackButtonHidden(true)
+                .background(
+                    Image("background")
+                    .resizable()
+                        .frame(width:1400, height: 925)
+                )
+                .navigationBarTitle("Home", displayMode: .inline)
+                .navigationBarHidden(false)
+                .navigationBarBackButtonHidden(true)
         }
         .alert(isPresented: $show) {
             Alert(title: Text(self.error_msg))}
-        
     }
+    
 }
 
 struct SignInView_Previews: PreviewProvider {

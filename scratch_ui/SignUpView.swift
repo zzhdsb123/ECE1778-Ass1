@@ -18,6 +18,7 @@ struct SignUpView: View {
     @State var bio = ""
     @State var show = false
     @State var error_msg = ""
+    @EnvironmentObject var session: Session
     
     func signUp () {
         if self.email == "" || self.password == "" || self.confirm_password == "" || self.username == "" || self.bio == "" {
@@ -37,8 +38,10 @@ struct SignUpView: View {
                     }
                 else {
                     let db = Database.database().reference().child("users")
-                    db.childByAutoId().setValue(["username": self.username, "bio": self.bio, "email": self.email])
-                    self.error_msg = "Success"
+                    let email = self.email
+                    let key = email.replacingOccurrences(of: ".", with: ",")
+                    db.child(key).setValue(["username": self.username, "bio": self.bio])
+                    self.session.signIn(email: self.email)
                 }
                 self.show.toggle()
             }
@@ -85,14 +88,29 @@ struct SignUpView: View {
                 Group {
                     TextField("Email", text: $email)
                         .padding()
+                        .background(Color(red: 200 / 255, green: 200 / 255, blue: 200 / 255))
+                        .padding()
+                        .opacity(0.8)
                     SecureField("Password", text: $password)
                         .padding()
+                        .background(Color(red: 200 / 255, green: 200 / 255, blue: 200 / 255))
+                        .padding()
+                        .opacity(0.8)
                     SecureField("Confirm Password", text: $confirm_password)
                         .padding()
+                        .background(Color(red: 200 / 255, green: 200 / 255, blue: 200 / 255))
+                        .padding()
+                        .opacity(0.8)
                     TextField("Username", text: $username)
                         .padding()
+                        .background(Color(red: 200 / 255, green: 200 / 255, blue: 200 / 255))
+                        .padding()
+                        .opacity(0.8)
                     TextField("A short bio", text: $bio)
                         .padding()
+                        .background(Color(red: 200 / 255, green: 200 / 255, blue: 200 / 255))
+                        .padding()
+                        .opacity(0.8)
                 }
                 HStack {
                     Spacer()
@@ -113,6 +131,11 @@ struct SignUpView: View {
                 Alert(title: Text(self.error_msg))
             }
         }
+        .background(
+            Image("background")
+            .resizable()
+                .frame(width:1400, height: 925)
+        )
     }
 }
 
