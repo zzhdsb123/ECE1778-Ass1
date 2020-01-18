@@ -55,7 +55,7 @@ struct SignUpView: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            VStack {
+            ScrollView {
                 HStack (alignment: .top) {
                     Text("Register")
                     Spacer()
