@@ -61,6 +61,10 @@ struct SignUpView: View {
                     Spacer()
                     Button(action: {
                         self.show_sheet.toggle()
+                        
+//                        self.camera.toggle()
+//                        self.picker.toggle()
+                        
                     }) {
                         Image(systemName: "camera")
                     }
