@@ -22,6 +22,7 @@ struct SignUpView: View {
     @State var image = UIImage()
     @State var selected = false
     @State var show_sheet = false
+    @State var camera = false
     @EnvironmentObject var session: Session
     
     func signUp () {
@@ -157,11 +158,14 @@ struct SignUpView: View {
             }
         }
         .sheet(isPresented: $picker, content: {
-            ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected)
+            ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
         })
         .actionSheet(isPresented: $show_sheet, content: {
             ActionSheet(title: Text("Take a picture or select one from the gallery"), buttons: [
-                .default(Text("Take a picture")),
+                .default(Text("Take a picture"), action: {
+                    self.camera.toggle()
+                    self.picker.toggle()
+                }),
                 .default(Text("Select an existing picture"), action: {
                     self.picker.toggle()
                 }),
@@ -180,6 +184,8 @@ struct ImagePickerView: UIViewControllerRepresentable {
     @Binding var isPresented: Bool
     @Binding var selectedImage: UIImage
     @Binding var selected: Bool
+    @Binding var camera: Bool
+    
     
     func makeCoordinator() -> ImagePickerView.Coordinator {
         return Coordinator(parent: self)
@@ -188,6 +194,9 @@ struct ImagePickerView: UIViewControllerRepresentable {
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerView>) -> UIImagePickerController {
         let controller = UIImagePickerController()
         controller.delegate = context.coordinator
+        if self.camera {
+            controller.sourceType = .camera
+        }
         return controller
     }
     
@@ -205,6 +214,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
                 self.parent.selected = true
             }
             self.parent.isPresented = false
+            self.parent.camera = false
         }
     }
     
