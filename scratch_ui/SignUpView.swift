@@ -95,7 +95,7 @@ struct SignUpView: View {
                         Image(systemName: "person")
                         
                         .resizable()
-                        
+                        .scaledToFill()
                         .padding()
                         .frame(width: 100,
                             height: 100,
