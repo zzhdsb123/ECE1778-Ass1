@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseStorage
 
 
 struct DetailView: View {
@@ -19,9 +20,8 @@ struct DetailView: View {
 
 struct ContentView: View {
     @EnvironmentObject var session : Session
-    
+
     @ViewBuilder
-    
     var body: some View {
         if self.session.isLoggedIn != nil {
             AuthView()

@@ -21,5 +21,6 @@ target 'scratch_ui' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'IQKeyboardManagerSwift'
+  pod 'Firebase/Storage'
 
 end

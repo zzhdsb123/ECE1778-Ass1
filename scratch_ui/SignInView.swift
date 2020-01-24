@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseStorage
 
 struct SignInView: View {
     @State var error_msg = ""
@@ -16,6 +17,8 @@ struct SignInView: View {
     @State var password = ""
     @EnvironmentObject var session: Session
     
+    
+    
     func signIn () {
         Auth.auth().signIn(withEmail: self.email, password: self.password) { (res, err) in
             if err != nil {
@@ -23,8 +26,7 @@ struct SignInView: View {
                 self.show.toggle()
             }
             else {
-                self.error_msg = "Success"
-                self.show.toggle()
+                self.session.userid = Auth.auth().currentUser!.uid
                 self.session.signIn(email: self.email)
             }
         }

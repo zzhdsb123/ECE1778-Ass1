@@ -153,6 +153,7 @@
 				F51DECFE23D10D2900C9BA27 /* AuthView.swift */,
 				F51DECFC23D10A3300C9BA27 /* Session.swift */,
 				F547D27E23D2C9920054CE1D /* ScratchView.swift */,
+				F5BC001B23DA52B700440885 /* temp */,
 				F585491823C6E11200189050 /* Preview Content */,
 			);
 			path = scratch_ui;
@@ -182,6 +183,13 @@
 				F585493423C6E11200189050 /* Info.plist */,
 			);
 			path = scratch_uiUITests;
+			sourceTree = "<group>";
+		};
+		F5BC001B23DA52B700440885 /* temp */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = temp;
 			sourceTree = "<group>";
 		};
 		F673A3C6AD8BFE5F27DBE03F /* Frameworks */ = {

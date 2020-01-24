@@ -9,6 +9,7 @@
 import SwiftUI
 import Firebase
 import FirebaseFirestore
+import FirebaseStorage
 
 struct SignUpView: View {
     @State var email = ""
@@ -25,6 +26,7 @@ struct SignUpView: View {
     @State var camera = false
     @EnvironmentObject var session: Session
     
+    
     func signUp () {
         if self.email == "" || self.password == "" || self.confirm_password == "" || self.username == "" || self.bio == "" {
             self.error_msg = "Please fill in the required field."
@@ -36,20 +38,83 @@ struct SignUpView: View {
             self.show.toggle()
         }
             
+        else if self.selected == false {
+            self.error_msg = "Please select an image!"
+            self.show.toggle()
+        }
+            
         else {
             Auth.auth().createUser(withEmail: self.email, password: self.password) {
                 (res, err) in  if err != nil {
                     self.error_msg =  err!.localizedDescription
+                    self.show.toggle()
                     }
                 else {
-                    let db = Firestore.firestore().collection("users")
-                    let email = self.email
-                    let key = email
-                    db.document(key).setData(["username": self.username, "bio": self.bio])
-                    self.session.signIn(email: self.email)
+                    
+                    Auth.auth().signIn(withEmail: self.email, password: self.password) { (res, err) in
+                        if err != nil {
+                            self.error_msg = err!.localizedDescription
+                            self.show.toggle()
+                        }
+                    }
+                    if Auth.auth().currentUser != nil {
+                        self.session.userid = Auth.auth().currentUser!.uid
+                        let db = Firestore.firestore().collection("users")
+                        db.document(self.session.userid!).setData(["username": self.username, "bio": self.bio, "email": self.email])
+                        self.upLoad()
+                        self.session.user_image = self.image
+                        self.session.signIn(email: self.email)
+                        
+                    }
+                    else {
+                        self.error_msg = "Oh no, something went wrong!"
+                        self.show.toggle()
+                    }
                 }
+            
+            }
+        }
+    }
+    
+    func upLoad () {
+//        let random_id = UUID.init().uuidString
+        let upload_ref = Storage.storage().reference(withPath: "\(String(describing: self.session.userid))/user_img.jpg")
+        guard let image_data = self.image.jpegData(compressionQuality: 1.0) else {
+            self.error_msg = "Oh no! Something went wrong!"
+            self.show.toggle()
+            return
+        }
+        let meta_data = StorageMetadata.init()
+        meta_data.contentType = "image/jpeg"
+        upload_ref.putData(image_data, metadata: meta_data) { (junk, error) in
+            if error != nil {
+                self.error_msg = error!.localizedDescription
                 self.show.toggle()
             }
+            else {
+                self.error_msg = "Success!"
+                self.show.toggle()
+            }
+            
+        }
+        
+        
+        let upload_ref_thumbnail = Storage.storage().reference(withPath: "\(String(describing: self.session.userid))/user_img_thumbnail.jpg")
+        guard let image_data_thumbnail = self.image.jpegData(compressionQuality: 0.25) else {
+            self.error_msg = "Oh no! Something went wrong!"
+            self.show.toggle()
+            return
+        }
+        upload_ref_thumbnail.putData(image_data_thumbnail, metadata: meta_data) { (junk, error) in
+            if error != nil {
+                self.error_msg = error!.localizedDescription
+                self.show.toggle()
+            }
+            else {
+                self.error_msg = "Success!"
+                self.show.toggle()
+            }
+            
         }
     }
     
@@ -147,6 +212,17 @@ struct SignUpView: View {
                     Spacer()
                     Button(action: signUp) {
                     Text("SIGN UP")
+                        .font(.subheadline)
+                        .frame(maxWidth: 100)
+                        .foregroundColor(Color.white)
+                        .padding()
+                        .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
+                        .padding()
+                        .shadow(radius: 10)
+                    }
+                    
+                    Button(action: upLoad) {
+                    Text("Upload Test")
                         .font(.subheadline)
                         .frame(maxWidth: 100)
                         .foregroundColor(Color.white)
