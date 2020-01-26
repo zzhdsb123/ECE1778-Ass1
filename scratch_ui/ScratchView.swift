@@ -7,16 +7,14 @@
 //
 
 import SwiftUI
+import FlowStack
 
 struct ScratchView: View {
     @State var present = false
+    
     var body: some View {
-        VStack {
-            Button(action: {
-                self.present.toggle()
-            }) {
-            Text(/*@START_MENU_TOKEN@*/"Button"/*@END_MENU_TOKEN@*/)
-            }
+        FlowStack(columns: 3, numItems: 27, alignment: .leading) { index, colWidth in
+          Text(" \(index) ").frame(width: colWidth, height: colWidth)
         }
         .actionSheet(isPresented: $present) {
         ActionSheet(title: Text("Action Sheet"))

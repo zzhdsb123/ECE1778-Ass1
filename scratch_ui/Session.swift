@@ -20,6 +20,7 @@ class Session: ObservableObject {
     @Published var username: String?
     @Published var userid: String?
     @Published var user_image: UIImage?
+    @Published var images: Array<UIImage>?
     
     func signIn (email: String) {
         self.email = email
