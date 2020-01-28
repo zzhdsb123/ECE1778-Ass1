@@ -22,5 +22,5 @@ target 'scratch_ui' do
   pod 'Firebase/Firestore'
   pod 'IQKeyboardManagerSwift'
   pod 'Firebase/Storage'
-
+  pod 'WaterfallGrid'
 end

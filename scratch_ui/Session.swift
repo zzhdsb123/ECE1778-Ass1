@@ -20,7 +20,8 @@ class Session: ObservableObject {
     @Published var username: String?
     @Published var userid: String?
     @Published var user_image: UIImage?
-    @Published var images: Array<UIImage>?
+    @Published var images = [UIImage]()
+    @Published var total: Int?
     
     func signIn (email: String) {
         self.email = email
@@ -33,7 +34,9 @@ class Session: ObservableObject {
             else {
                 self.bio = snapshot?.data()?["bio"] as? String ?? ""
                 self.username = snapshot?.data()?["username"] as? String ?? ""
+                self.total = (snapshot!.data()!["total"] as? Int)! - 1
                 self.getUserImg()
+                self.getAllImg()
             }
         }
         self.isLoggedIn = true
@@ -65,5 +68,37 @@ class Session: ObservableObject {
                 self.user_image = UIImage(data: data!)
             }
         }
+    }
+    
+    func getAllImg () {
+        let db = Firestore.firestore().collection("users").document(self.userid!)
+        db.getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                let dispatchQueue = DispatchQueue(label: "taskQueue")
+                var images = snapshot!.data()!["photos"] as! [String]
+                images.reverse()
+                let dispatchSemaphore = DispatchSemaphore(value: 0)
+                
+                dispatchQueue.async {
+                    for image in images {
+                        let storage_ref = Storage.storage().reference(withPath: "\(String(describing: self.userid))/\(image)_thumbnail.jpg")
+                        storage_ref.getData(maxSize: 5*1024*1024) { (data, error) in
+                            if error != nil {
+                                print(error!.localizedDescription)
+                            }
+                            else {
+                                self.images.append(UIImage(data: data!)!)
+                                dispatchSemaphore.signal()
+                            }
+                        }
+                        dispatchSemaphore.wait()
+                    }
+                }
+            }
+        }
+        //
     }
 }

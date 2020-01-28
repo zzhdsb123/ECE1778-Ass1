@@ -9,7 +9,6 @@
 import SwiftUI
 import Firebase
 import FirebaseStorage
-import FlowStack
 
 struct AuthView: View {
     @EnvironmentObject var session: Session
@@ -19,9 +18,64 @@ struct AuthView: View {
     @State var selected = false
     @State var show_sheet = false
     @State var camera = false
+    @State var show = false
+    
+    func uploadImage (name: String) {
+        
+        // original image
+        let upload_ref = Storage.storage().reference(withPath: "\(String(describing: self.session.userid))/\(name).jpg")
+        guard let image_data = self.image.jpegData(compressionQuality: 1.0) else {
+            self.error_msg = "Oh no! Something went wrong!"
+            self.show.toggle()
+            return
+        }
+        let meta_data = StorageMetadata.init()
+        meta_data.contentType = "image/jpeg"
+        upload_ref.putData(image_data, metadata: meta_data) { (junk, error) in
+            if error != nil {
+                self.error_msg = error!.localizedDescription
+                self.show.toggle()
+            }
+
+        }
+
+        // thumbnail
+        let upload_ref_thumbnail = Storage.storage().reference(withPath: "\(String(describing: self.session.userid))/\(name)_thumbnail.jpg")
+        guard let image_data_thumbnail = self.image.jpegData(compressionQuality: 0.25) else {
+            self.error_msg = "Oh no! Something went wrong!"
+            self.show.toggle()
+            return
+        }
+        upload_ref_thumbnail.putData(image_data_thumbnail, metadata: meta_data) { (junk, error) in
+            if error != nil {
+                self.error_msg = error!.localizedDescription
+                self.show.toggle()
+            }
+
+        }
+    }
     
     func upload () {
-        //
+        
+        let db = Firestore.firestore().collection("users").document(self.session.userid!)
+        db.getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            let total = (snapshot!.data()!["total"] as! Int)
+            var photos = (snapshot!.data()!["photos"] as! [String])
+            db.setData(["total": total+1], merge: true)
+//            print(total)
+            let name = String(total)
+            photos.append(name)
+            db.setData(["photos": photos], merge: true)
+            self.uploadImage(name: name)
+            self.selected.toggle()
+            self.error_msg = "Upload success!"
+            self.show.toggle()
+        }
+
+        
     }
     
     func signOut () {

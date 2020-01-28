@@ -60,7 +60,7 @@ struct SignUpView: View {
                     if Auth.auth().currentUser != nil {
                         self.session.userid = Auth.auth().currentUser!.uid
                         let db = Firestore.firestore().collection("users")
-                        db.document(self.session.userid!).setData(["username": self.username, "bio": self.bio, "email": self.email])
+                        db.document(self.session.userid!).setData(["username": self.username, "bio": self.bio, "email": self.email, "photos": [String](), "total": 1])
                         self.upLoad()
                         self.session.user_image = self.image
                         self.session.signIn(email: self.email)
