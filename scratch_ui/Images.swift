@@ -11,20 +11,13 @@ import WaterfallGrid
 
 struct Images: View {
     @EnvironmentObject var session: Session
-    @State var count = 0
     
     var body: some View {
-        GeometryReader {geometry in
-            WaterfallGrid(self.session.images, id: \.self) { image in
-                Image(uiImage: image)
+        FlowStack(columns: 3, numItems: self.session.total!, alignment: .leading) { (index, colWidth) in
+            Image(uiImage: self.session.images[index])
                 .resizable()
                 .padding(5)
-                .frame(width: geometry.size.width/3, height: geometry.size.width/3)
-            }
-            .gridStyle(columns: 3)
-            .scrollOptions(
-              direction: .vertical
-            )
+                .frame(width: colWidth, height: colWidth)
         }
     }
 }

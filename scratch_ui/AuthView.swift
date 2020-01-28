@@ -93,8 +93,8 @@ struct AuthView: View {
     
     var body: some View {
         NavigationView {
-            VStack (alignment: .leading) {
-                ScrollView {
+            ScrollView {
+                VStack (alignment: .leading) {
                     Spacer()
                         .frame(height: 30)
                     HStack {
@@ -142,7 +142,7 @@ struct AuthView: View {
                         .padding()
                         HStack {
                             Button(action: {
-                                //
+                                self.selected = false
                             }, label: {
                                 Text("DISCARD")
                                 .font(.subheadline)
@@ -157,7 +157,7 @@ struct AuthView: View {
                             Spacer()
                             
                             Button(action: {
-                                //
+                                self.upload()
                             }, label: {
                                 Text("POST")
                                 .font(.subheadline)
@@ -169,9 +169,13 @@ struct AuthView: View {
                                 .shadow(radius: 10)
                             })
                         }
+                        
                     }
-                    
+                    if self.session.images.count == self.session.total {
+                        Images()
+                    }
                 }
+                
             }
             
             .navigationBarItems(trailing: HStack {
