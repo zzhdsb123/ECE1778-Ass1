@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import WaterfallGrid
 
 struct ScratchView: View {
     @State var present = false
