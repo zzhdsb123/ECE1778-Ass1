@@ -15,8 +15,6 @@
 		F51DECFD23D10A3300C9BA27 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DECFC23D10A3300C9BA27 /* Session.swift */; };
 		F51DECFF23D10D2900C9BA27 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DECFE23D10D2900C9BA27 /* AuthView.swift */; };
 		F526E8DF23D1656A0079E8DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F526E8DE23D1656A0079E8DC /* Assets.xcassets */; };
-		F530065323DFA9E800B33DB4 /* FlowStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F530065223DFA9E800B33DB4 /* FlowStack.swift */; };
-		F530065823DFBC7300B33DB4 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = F530065723DFBC7300B33DB4 /* Images.swift */; };
 		F547D27F23D2C9920054CE1D /* ScratchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F547D27E23D2C9920054CE1D /* ScratchView.swift */; };
 		F554A56C23DD53FC00BCA057 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554A56B23DD53FC00BCA057 /* ImagePickerView.swift */; };
 		F585491123C6E11000189050 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F585491023C6E11000189050 /* AppDelegate.swift */; };
@@ -60,8 +58,6 @@
 		F51DECFC23D10A3300C9BA27 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		F51DECFE23D10D2900C9BA27 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		F526E8DE23D1656A0079E8DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F530065223DFA9E800B33DB4 /* FlowStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowStack.swift; sourceTree = "<group>"; };
-		F530065723DFBC7300B33DB4 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		F547D27E23D2C9920054CE1D /* ScratchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScratchView.swift; sourceTree = "<group>"; };
 		F554A56B23DD53FC00BCA057 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		F585490D23C6E11000189050 /* scratch_ui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scratch_ui.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,8 +155,6 @@
 				F51DECFE23D10D2900C9BA27 /* AuthView.swift */,
 				F51DECFC23D10A3300C9BA27 /* Session.swift */,
 				F554A56B23DD53FC00BCA057 /* ImagePickerView.swift */,
-				F530065223DFA9E800B33DB4 /* FlowStack.swift */,
-				F530065723DFBC7300B33DB4 /* Images.swift */,
 				F547D27E23D2C9920054CE1D /* ScratchView.swift */,
 				F5BC001B23DA52B700440885 /* temp */,
 				F585491823C6E11200189050 /* Preview Content */,
@@ -456,9 +450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F51DECFD23D10A3300C9BA27 /* Session.swift in Sources */,
-				F530065323DFA9E800B33DB4 /* FlowStack.swift in Sources */,
 				F51DECF523CFEA4800C9BA27 /* SignInView.swift in Sources */,
-				F530065823DFBC7300B33DB4 /* Images.swift in Sources */,
 				F585491123C6E11000189050 /* AppDelegate.swift in Sources */,
 				F51DECF323CFE9DD00C9BA27 /* SignUpView.swift in Sources */,
 				F554A56C23DD53FC00BCA057 /* ImagePickerView.swift in Sources */,

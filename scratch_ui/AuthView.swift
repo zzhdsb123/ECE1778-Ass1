@@ -51,6 +51,9 @@ struct AuthView: View {
                 self.error_msg = error!.localizedDescription
                 self.show.toggle()
             }
+            else {
+                self.upDate()
+            }
 
         }
     }
@@ -91,142 +94,173 @@ struct AuthView: View {
         }
     }
     
+    func upDate () {
+        self.session.count = 0
+        self.session.images = [[UIImage]]()
+        let db = Firestore.firestore().collection("users")
+        db.document(self.session.userid!).getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                self.session.total = (snapshot!.data()!["total"] as? Int)! - 1
+                self.session.getAllImg()
+//                print(self.session.images)
+//                print(self.session.images.count)
+//                print(self.session.count)
+//                print(self.session.total!)
+            }
+        }
+        
+    }
+    
     var body: some View {
-        NavigationView {
+        GeometryReader {geo in
+            NavigationView {
 
-            ScrollView (.vertical) {
-                Spacer()
-                    .frame(height: 30)
-                HStack {
-                    if self.session.user_image != nil {
-                        Image(uiImage: self.session.user_image!)
-                            .resizable()
-                            .frame(width: 120,
-                                   height: 120,
-                                   alignment: .topLeading)
-                            .background(Color.gray)
-                            .foregroundColor(Color.white)
-                            .clipShape(Circle())
-                            .shadow(radius: 10)
-                            .padding()
-                    }
-                    else {
-                        Image(systemName: "person")
-                            .resizable()
-                            .padding()
-                            .frame(width: 120,
-                                   height: 120,
-                                   alignment: .topLeading)
-                            .background(Color.gray)
-                            .foregroundColor(Color.white)
-                            .clipShape(Circle())
-                            .shadow(radius: 10)
-                            .padding()
-                    }
+                ScrollView (.vertical) {
                     Spacer()
-                        .frame(width: 30)
-                    VStack (alignment: .leading, spacing: 0) {
-                        Text(String(self.session.username ?? "Loading username..."))
-                        .foregroundColor(Color.white)
-                        .font(.title)
-                        Text(String(self.session.bio ?? "Loading bio..."))
-                        .foregroundColor(Color.white)
-                    }
-                        
-                        
-                    }
-                    .frame(maxWidth: .infinity)
-                if self.selected {
-                    Image(uiImage: self.image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .padding()
+                        .frame(height: 30)
                     HStack {
-                        Button(action: {
-                            self.selected = false
-                        }, label: {
-                            Text("DISCARD")
-                            .font(.subheadline)
-                            .frame(maxWidth: 120)
-                            .foregroundColor(Color.white)
-                            .padding()
-                            .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
-                            .padding()
-                            .shadow(radius: 10)
-                        })
-                        
+                        if self.session.user_image != nil {
+                            Image(uiImage: self.session.user_image!)
+                                .resizable()
+                                .frame(width: 120,
+                                       height: 120,
+                                       alignment: .topLeading)
+                                .background(Color.gray)
+                                .foregroundColor(Color.white)
+                                .clipShape(Circle())
+                                .shadow(radius: 10)
+                                .padding()
+                        }
+                        else {
+                            Image(systemName: "person")
+                                .resizable()
+                                .padding()
+                                .frame(width: 120,
+                                       height: 120,
+                                       alignment: .topLeading)
+                                .background(Color.gray)
+                                .foregroundColor(Color.white)
+                                .clipShape(Circle())
+                                .shadow(radius: 10)
+                                .padding()
+                        }
                         Spacer()
-                        
-                        Button(action: {
-                            self.upload()
-                        }, label: {
-                            Text("POST")
-                            .font(.subheadline)
-                            .frame(maxWidth: 120)
+                            .frame(width: 30)
+                        VStack (alignment: .leading, spacing: 0) {
+                            Text(String(self.session.username ?? "Loading username..."))
                             .foregroundColor(Color.white)
-                            .padding()
-                            .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
-                            .padding()
-                            .shadow(radius: 10)
-                        })
+                            .font(.title)
+                            Text(String(self.session.bio ?? "Loading bio..."))
+                            .foregroundColor(Color.white)
+                        }
+                            
+                            
+                        }
+                        .frame(maxWidth: .infinity)
+                    if self.selected {
+                        Image(uiImage: self.image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .padding()
+                        HStack {
+                            Button(action: {
+                                self.selected = false
+                            }, label: {
+                                Text("DISCARD")
+                                .font(.subheadline)
+                                .frame(maxWidth: 120)
+                                .foregroundColor(Color.white)
+                                .padding()
+                                .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
+                                .padding()
+                                .shadow(radius: 10)
+                            })
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                self.upload()
+                            }, label: {
+                                Text("POST")
+                                .font(.subheadline)
+                                .frame(maxWidth: 120)
+                                .foregroundColor(Color.white)
+                                .padding()
+                                .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
+                                .padding()
+                                .shadow(radius: 10)
+                            })
+                        }
+                        
                     }
                     
+    //                Button(action: {
+    //                    print(self.session.images)
+    //                }) {
+    //                    Text("Test")
+    //                }
+                    
+                    
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(self.session.images, id: \.self) {images in
+                            HStack (spacing: 0) {
+                                ForEach(images, id: \.self) {image in
+                                    Image(uiImage: image)
+                                    .resizable()
+                                    .padding(5)
+                                    .frame(width: geo.size.width/3, height: geo.size.width/3)
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+                    
                 }
-                
-//                Button(action: {
-//                    print(self.session.images)
-//                }) {
-//                    Text("Test")
-//                }
-                
-                if self.session.count == self.session.total {
-                    Images()
-//                    VStack {
-//                        FlowStack(columns: 3, numItems: 27, alignment: .leading) { index, colWidth in
-//                            Text(" \(index) ").frame(width: colWidth, height: colWidth)
-//                        }
-//                    }
-
+                .alert(isPresented: self.$show) {
+                    Alert(title: Text(self.error_msg))
                 }
-                
-                
+                .frame(maxWidth: .infinity)
+                .navigationBarItems(trailing: HStack {
+                    Button(action: {
+                        self.show_sheet.toggle()
+                    }) {
+                        Image(systemName: "square.and.arrow.up").font(.system(size: 25))
+                            .foregroundColor(Color.black)
+                    }
+                    
+                })
+                .navigationBarTitle(Text("Profile").font(.subheadline), displayMode: .inline)
+                .background(
+                Image("background")
+                .resizable()
+                .frame(width:1400, height: 925)
+                )
+                    .actionSheet(isPresented: self.$show_sheet) {
+                    ActionSheet(title: Text("Sign out or upload a photo"), buttons: [
+                    .default(Text("Take a photo"), action: {
+                        self.camera.toggle()
+                        self.picker.toggle()
+                    }),
+                    .default(Text("Select from the gallery"), action: {
+                        self.picker.toggle()
+                    }),
+                    .default(Text("Sign out"), action: {
+                        self.signOut()
+                    }),
+                    .cancel()])
+                    
+                }
+                .sheet(isPresented: self.$picker, content: {
+                    ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
+                })
             }
             .frame(maxWidth: .infinity)
-            .navigationBarItems(trailing: HStack {
-                Button(action: {
-                    self.show_sheet.toggle()
-                }) {
-                    Image(systemName: "square.and.arrow.up").font(.system(size: 20))
-                        .foregroundColor(Color.black)
-                }
-                
-            })
-            .navigationBarTitle(Text("Profile").font(.subheadline), displayMode: .inline)
-            .background(
-            Image("background")
-            .resizable()
-            .frame(width:1400, height: 925)
-            )
-            .actionSheet(isPresented: $show_sheet) {
-                ActionSheet(title: Text("Sign out or upload a photo"), buttons: [
-                .default(Text("Take a photo"), action: {
-                    self.camera.toggle()
-                    self.picker.toggle()
-                }),
-                .default(Text("Select from the gallery"), action: {
-                    self.picker.toggle()
-                }),
-                .default(Text("Sign out"), action: {
-                    self.signOut()
-                }),
-                .cancel()])
-                
-            }
-            .sheet(isPresented: $picker, content: {
-                ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
-            })
+                    
         }
-        .frame(maxWidth: .infinity)
         
     }
     

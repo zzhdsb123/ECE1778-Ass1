@@ -35,7 +35,6 @@ class Session: ObservableObject {
             else {
                 self.bio = snapshot?.data()?["bio"] as? String ?? ""
                 self.username = snapshot?.data()?["username"] as? String ?? ""
-                self.total = (snapshot!.data()!["total"] as? Int)! - 1
                 self.getUserImg()
                 self.getAllImg()
             }
@@ -80,6 +79,7 @@ class Session: ObservableObject {
             else {
                 let dispatchQueue = DispatchQueue(label: "taskQueue")
                 var images = snapshot!.data()!["photos"] as! [String]
+                self.total = images.count
                 images.reverse()
                 let dispatchSemaphore = DispatchSemaphore(value: 0)
                 var temp = [UIImage]()
