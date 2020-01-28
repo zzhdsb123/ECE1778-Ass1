@@ -48,7 +48,9 @@ class Session: ObservableObject {
             self.email = nil
             self.isLoggedIn = nil
             self.user_image = nil
-                
+            self.images = [[UIImage]]()
+            self.total = 0
+            self.count = 0
             }
             catch let err {
                 print(err)
