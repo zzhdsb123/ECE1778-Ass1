@@ -20,8 +20,9 @@ class Session: ObservableObject {
     @Published var username: String?
     @Published var userid: String?
     @Published var user_image: UIImage?
-    @Published var images = [UIImage]()
+    @Published var images = [[UIImage]]()
     @Published var total: Int?
+    @Published var count = 0
     
     func signIn (email: String) {
         self.email = email
@@ -81,6 +82,7 @@ class Session: ObservableObject {
                 var images = snapshot!.data()!["photos"] as! [String]
                 images.reverse()
                 let dispatchSemaphore = DispatchSemaphore(value: 0)
+                var temp = [UIImage]()
                 
                 dispatchQueue.async {
                     for image in images {
@@ -90,7 +92,20 @@ class Session: ObservableObject {
                                 print(error!.localizedDescription)
                             }
                             else {
-                                self.images.append(UIImage(data: data!)!)
+                                self.count += 1
+                                if temp.count < 3 {
+                                    temp.append(UIImage(data: data!)!)
+                                }
+                                else {
+                                    self.images.append(temp)
+//                                    print(self.images)
+                                    temp = [UIImage]()
+                                    temp.append(UIImage(data: data!)!)
+                                    
+                                }
+                                if self.count == self.total && temp.count > 0 {
+                                    self.images.append(temp)
+                                }
                                 dispatchSemaphore.signal()
                             }
                         }

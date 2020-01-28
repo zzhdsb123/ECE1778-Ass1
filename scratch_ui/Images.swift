@@ -13,11 +13,19 @@ struct Images: View {
     @EnvironmentObject var session: Session
     
     var body: some View {
-        FlowStack(columns: 3, numItems: self.session.total!, alignment: .leading) { (index, colWidth) in
-            Image(uiImage: self.session.images[index])
-                .resizable()
-                .padding(5)
-                .frame(width: colWidth, height: colWidth)
+        GeometryReader {geo in
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(self.session.images, id: \.self) {images in
+                    HStack (spacing: 0) {
+                        ForEach(images, id: \.self) {image in
+                            Image(uiImage: image)
+                            .resizable()
+                            .padding(5)
+                            .frame(width: geo.size.width/3, height: geo.size.width/3)
+                        }
+                    }
+                }
+            }
         }
     }
 }

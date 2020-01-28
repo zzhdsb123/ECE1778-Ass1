@@ -172,15 +172,21 @@ struct AuthView: View {
                     }
                     
                 }
-
-                if self.session.images.count == self.session.total {
+                
+//                Button(action: {
+//                    print(self.session.images)
+//                }) {
+//                    Text("Test")
+//                }
+                
+                if self.session.count == self.session.total {
                     Images()
 //                    VStack {
 //                        FlowStack(columns: 3, numItems: 27, alignment: .leading) { index, colWidth in
 //                            Text(" \(index) ").frame(width: colWidth, height: colWidth)
 //                        }
 //                    }
-                    
+
                 }
                 
                 
