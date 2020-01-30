@@ -211,7 +211,7 @@ struct AuthView: View {
                     Button(action: {
                         self.show_sheet.toggle()
                     }) {
-                        Image(systemName: "square.and.arrow.up").font(.system(size: 25))
+                        Image(systemName: "square.and.arrow.up")
                             .foregroundColor(Color.black)
                     }
                     

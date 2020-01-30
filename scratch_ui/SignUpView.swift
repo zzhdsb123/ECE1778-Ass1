@@ -121,26 +121,6 @@ struct SignUpView: View {
     var body: some View {
         HStack(alignment: .top) {
             ScrollView {
-                HStack (alignment: .top) {
-                    Text("Register")
-                    Spacer()
-                    Button(action: {
-                        self.show_sheet.toggle()
-                        
-//                        self.camera.toggle()
-//                        self.picker.toggle()
-                        
-                    }) {
-                        Image(systemName: "camera")
-                    }
-                    
-                }
-                .font(.title)
-                .frame(maxWidth: .infinity, alignment: .topLeading)
-                .padding()
-                .background(Color(red: 158 / 255, green: 158 / 255, blue: 180 / 255))
-                .foregroundColor(Color.white)
-                
                 Spacer()
                     .frame(height: 40)
                 
@@ -221,16 +201,16 @@ struct SignUpView: View {
                         .shadow(radius: 10)
                     }
                     
-                    Button(action: upLoad) {
-                    Text("Upload Test")
-                        .font(.subheadline)
-                        .frame(maxWidth: 100)
-                        .foregroundColor(Color.white)
-                        .padding()
-                        .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
-                        .padding()
-                        .shadow(radius: 10)
-                    }
+//                    Button(action: upLoad) {
+//                    Text("Upload Test")
+//                        .font(.subheadline)
+//                        .frame(maxWidth: 100)
+//                        .foregroundColor(Color.white)
+//                        .padding()
+//                        .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
+//                        .padding()
+//                        .shadow(radius: 10)
+//                    }
                 }
                 Spacer()
             }
@@ -252,6 +232,16 @@ struct SignUpView: View {
                 }),
                 .cancel()])
         })
+        .navigationBarItems(trailing: HStack {
+            Button(action: {
+                self.show_sheet.toggle()
+            }) {
+                Image(systemName: "camera").font(.system(size: 25))
+                    .foregroundColor(Color.black)
+            }
+            
+        })
+        .navigationBarTitle(Text("Register"), displayMode: .inline)
         .background(
             Image("background")
                 .resizable()
