@@ -176,7 +176,6 @@ struct AuthView: View {
                         self.show_sheet.toggle()
                     }) {
                         Image(systemName: "square.and.arrow.up")
-                            .foregroundColor(Color.black)
                     }
                     
                 })
@@ -191,10 +190,11 @@ struct AuthView: View {
                 ActionSheet(title: Text("Sign out or upload a photo"), buttons: [
                 .default(Text("Take a photo"), action: {
                     self.selected = false
-                    self.camera.toggle()
+                    self.camera = true
                     self.picker.toggle()
                 }),
                 .default(Text("Select from the gallery"), action: {
+                    self.camera = false
                     self.selected = false
                     self.picker.toggle()
                 }),
@@ -220,7 +220,7 @@ struct AuthView: View {
                                     self.picker = false
                                     self.upload()
                                 }) {
-                                    Text("CONFIRM")
+                                    Text("UPLOAD")
                                     .font(.subheadline)
                                     .frame(maxWidth: 120)
                                     .foregroundColor(Color.white)

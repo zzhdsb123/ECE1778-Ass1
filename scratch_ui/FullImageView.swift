@@ -11,8 +11,13 @@ import FirebaseStorage
 
 struct FullImageView: View {
     @EnvironmentObject var session: Session
-//    @Binding var full_image: UIImage?
+//    @Environment(\.managedObjectContext) var moc
+    @Environment(\.presentationMode) var presentationMode
+    @State private var showing_delete_alert = false
     
+    func delete () {
+        presentationMode.wrappedValue.dismiss()
+    }
     
     var body: some View {
         VStack {
@@ -25,7 +30,19 @@ struct FullImageView: View {
                 Text("loading...")
             }
         }
-        
+        .navigationBarItems(trailing: HStack {
+            Button(action: {
+                self.showing_delete_alert.toggle()
+            }) {
+                Image(systemName: "trash")
+            }
+            
+        })
+            .alert(isPresented: $showing_delete_alert) {
+                Alert(title: Text("Delete Image"), message: Text("Are you sure?"), primaryButton: .destructive(Text("DELETE")){
+                    self.delete()
+                    }, secondaryButton: .cancel())
+        }
     }
 }
 
