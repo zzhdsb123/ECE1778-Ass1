@@ -21,8 +21,10 @@ class Session: ObservableObject {
     @Published var userid: String?
     @Published var user_image: UIImage?
     @Published var images = [[UIImage]]()
+    @Published var images_tracker = [[String]]()
     @Published var total: Int?
     @Published var count = 0
+    @Published var full_image: UIImage?
     
     func signIn (email: String) {
         self.email = email
@@ -85,6 +87,7 @@ class Session: ObservableObject {
                 images.reverse()
                 let dispatchSemaphore = DispatchSemaphore(value: 0)
                 var temp = [UIImage]()
+                var temp_tracker = [String]()
                 
                 dispatchQueue.async {
                     for image in images {
@@ -96,23 +99,29 @@ class Session: ObservableObject {
                             else {
                                 self.count += 1
                                 if temp.count < 3 {
+                                    temp_tracker.append(image)
                                     temp.append(UIImage(data: data!)!)
                                 }
                                 else {
                                     self.images.append(temp)
+                                    self.images_tracker.append(temp_tracker)
 //                                    print(self.images)
                                     temp = [UIImage]()
+                                    temp_tracker = [String]()
                                     temp.append(UIImage(data: data!)!)
+                                    temp_tracker.append(image)
                                     
                                 }
                                 if self.count == self.total && temp.count > 0 {
                                     self.images.append(temp)
+                                    self.images_tracker.append(temp_tracker)
                                 }
                                 dispatchSemaphore.signal()
                             }
                         }
                         dispatchSemaphore.wait()
                     }
+//                    print(self.images_tracker)
                 }
             }
         }

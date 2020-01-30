@@ -24,7 +24,7 @@ struct AuthView: View {
         
         // original image
         let upload_ref = Storage.storage().reference(withPath: "\(String(describing: self.session.userid))/\(name).jpg")
-        guard let image_data = self.image.jpegData(compressionQuality: 1.0) else {
+        guard let image_data = self.image.jpegData(compressionQuality: 0.75) else {
             self.error_msg = "Oh no! Something went wrong!"
             self.show.toggle()
             return
@@ -116,8 +116,10 @@ struct AuthView: View {
     
     var body: some View {
         GeometryReader {geo in
+            
             NavigationView {
-
+                
+                
                 ScrollView (.vertical) {
                     Spacer()
                         .frame(height: 30)
@@ -196,28 +198,8 @@ struct AuthView: View {
                         }
                         
                     }
-                    
-    //                Button(action: {
-    //                    print(self.session.images)
-    //                }) {
-    //                    Text("Test")
-    //                }
-                    
-                    
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(self.session.images, id: \.self) {images in
-                            HStack (spacing: 0) {
-                                ForEach(images, id: \.self) {image in
-                                    Image(uiImage: image)
-                                    .resizable()
-                                    .padding(5)
-                                    .frame(width: geo.size.width/3, height: geo.size.width/3)
-                                }
-                            }
-                        }
-                    }
-                    
-                    
+                      
+                    UserPhotoView(width: geo.size.width/3)
                     
                 }
                 .alert(isPresented: self.$show) {
@@ -239,21 +221,21 @@ struct AuthView: View {
                 .resizable()
                 .frame(width:1400, height: 925)
                 )
-                    .actionSheet(isPresented: self.$show_sheet) {
-                    ActionSheet(title: Text("Sign out or upload a photo"), buttons: [
-                    .default(Text("Take a photo"), action: {
-                        self.camera.toggle()
-                        self.picker.toggle()
-                    }),
-                    .default(Text("Select from the gallery"), action: {
-                        self.picker.toggle()
-                    }),
-                    .default(Text("Sign out"), action: {
-                        self.signOut()
-                    }),
-                    .cancel()])
-                    
-                }
+                .actionSheet(isPresented: self.$show_sheet) {
+                ActionSheet(title: Text("Sign out or upload a photo"), buttons: [
+                .default(Text("Take a photo"), action: {
+                    self.camera.toggle()
+                    self.picker.toggle()
+                }),
+                .default(Text("Select from the gallery"), action: {
+                    self.picker.toggle()
+                }),
+                .default(Text("Sign out"), action: {
+                    self.signOut()
+                }),
+                .cancel()])
+                
+            }
                 .sheet(isPresented: self.$picker, content: {
                     ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
                 })

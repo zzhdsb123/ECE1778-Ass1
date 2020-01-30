@@ -10,6 +10,8 @@
 		3AC89533069D18E45338C1EC /* Pods_scratch_ui_scratch_uiUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081C9DBCE251A3B060444F84 /* Pods_scratch_ui_scratch_uiUITests.framework */; };
 		847F84158E65BB93F997EB50 /* Pods_scratch_uiTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1B8537DD8EAA648B599FB34 /* Pods_scratch_uiTests.framework */; };
 		C09CE46250EFE782D713702A /* Pods_scratch_ui.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2447364948CF2A98C5DDD7D2 /* Pods_scratch_ui.framework */; };
+		F512768B23E2565C00B99BF9 /* UserPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F512768A23E2565C00B99BF9 /* UserPhotoView.swift */; };
+		F512768D23E26EF300B99BF9 /* FullImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F512768C23E26EF300B99BF9 /* FullImageView.swift */; };
 		F51DECF323CFE9DD00C9BA27 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DECF223CFE9DD00C9BA27 /* SignUpView.swift */; };
 		F51DECF523CFEA4800C9BA27 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DECF423CFEA4800C9BA27 /* SignInView.swift */; };
 		F51DECFD23D10A3300C9BA27 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DECFC23D10A3300C9BA27 /* Session.swift */; };
@@ -53,6 +55,8 @@
 		721311E8E80FC78110B9E524 /* Pods-scratch_ui-scratch_uiUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scratch_ui-scratch_uiUITests.release.xcconfig"; path = "Target Support Files/Pods-scratch_ui-scratch_uiUITests/Pods-scratch_ui-scratch_uiUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7668A98C8D3191FECDE5BC1A /* Pods-scratch_uiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-scratch_uiTests.debug.xcconfig"; path = "Target Support Files/Pods-scratch_uiTests/Pods-scratch_uiTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C1B8537DD8EAA648B599FB34 /* Pods_scratch_uiTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_scratch_uiTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F512768A23E2565C00B99BF9 /* UserPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhotoView.swift; sourceTree = "<group>"; };
+		F512768C23E26EF300B99BF9 /* FullImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullImageView.swift; sourceTree = "<group>"; };
 		F51DECF223CFE9DD00C9BA27 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		F51DECF423CFEA4800C9BA27 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F51DECFC23D10A3300C9BA27 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -166,6 +170,8 @@
 				F51DECFC23D10A3300C9BA27 /* Session.swift */,
 				F554A56B23DD53FC00BCA057 /* ImagePickerView.swift */,
 				F547D27E23D2C9920054CE1D /* ScratchView.swift */,
+				F512768A23E2565C00B99BF9 /* UserPhotoView.swift */,
+				F512768C23E26EF300B99BF9 /* FullImageView.swift */,
 				F5BC001B23DA52B700440885 /* temp */,
 				F585491823C6E11200189050 /* Preview Content */,
 			);
@@ -445,9 +451,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F512768B23E2565C00B99BF9 /* UserPhotoView.swift in Sources */,
 				F51DECFD23D10A3300C9BA27 /* Session.swift in Sources */,
 				F51DECF523CFEA4800C9BA27 /* SignInView.swift in Sources */,
 				F585491123C6E11000189050 /* AppDelegate.swift in Sources */,
+				F512768D23E26EF300B99BF9 /* FullImageView.swift in Sources */,
 				F51DECF323CFE9DD00C9BA27 /* SignUpView.swift in Sources */,
 				F554A56C23DD53FC00BCA057 /* ImagePickerView.swift in Sources */,
 				F51DECFF23D10D2900C9BA27 /* AuthView.swift in Sources */,

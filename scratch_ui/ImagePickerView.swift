@@ -27,6 +27,9 @@ struct ImagePickerView: UIViewControllerRepresentable {
         if self.camera {
             controller.sourceType = .camera
         }
+        else {
+            controller.sourceType = .photoLibrary
+        }
         return controller
     }
     
