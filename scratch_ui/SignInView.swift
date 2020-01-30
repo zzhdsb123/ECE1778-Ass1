@@ -95,7 +95,8 @@ struct SignInView: View {
                 .background(
                     Image("background")
                     .resizable()
-                        .frame(width:1400, height: 925)
+                    .aspectRatio(contentMode: .fill)
+                    .edgesIgnoringSafeArea(.all)
                 )
                 .navigationBarTitle("Home", displayMode: .inline)
                 .navigationBarHidden(false)

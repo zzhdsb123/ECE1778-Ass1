@@ -220,7 +220,8 @@ struct AuthView: View {
                 .background(
                 Image("background")
                 .resizable()
-                .frame(width:1400, height: 925)
+                .aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.all)
                 )
                 .actionSheet(isPresented: self.$show_sheet) {
                 ActionSheet(title: Text("Sign out or upload a photo"), buttons: [

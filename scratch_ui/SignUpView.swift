@@ -255,7 +255,8 @@ struct SignUpView: View {
         .background(
             Image("background")
                 .resizable()
-                .frame(width:1400, height: 925)
+                .aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.all)
         )
     }
 }

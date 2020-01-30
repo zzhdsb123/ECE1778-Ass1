@@ -44,6 +44,7 @@ struct UserPhotoView: View {
                                 .resizable()
                                 .padding(5)
                                 .frame(width: self.width, height: self.width)
+                                .aspectRatio(contentMode: .fit)
                             }
                             .buttonStyle(PlainButtonStyle())
                             .simultaneousGesture(TapGesture().onEnded({
