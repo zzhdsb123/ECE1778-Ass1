@@ -19,6 +19,7 @@ struct AuthView: View {
     @State var show_sheet = false
     @State var camera = false
     @State var show = false
+    @State var post_preview = false
     
     func uploadImage (name: String) {
         
@@ -120,7 +121,6 @@ struct AuthView: View {
             
             NavigationView {
                 
-                
                 ScrollView (.vertical) {
                     Spacer()
                         .frame(height: 30)
@@ -199,7 +199,7 @@ struct AuthView: View {
                         }
                         
                     }
-                      
+                    
                     UserPhotoView(width: geo.size.width/3)
                     
                 }

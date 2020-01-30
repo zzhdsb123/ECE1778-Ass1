@@ -46,8 +46,8 @@ struct ImagePickerView: UIViewControllerRepresentable {
                 self.parent.selectedImage = selectedImage
                 self.parent.selected = true
             }
-            self.parent.isPresented = false
-            self.parent.camera = false
+//            self.parent.isPresented = false
+//            self.parent.camera = false
         }
     }
     

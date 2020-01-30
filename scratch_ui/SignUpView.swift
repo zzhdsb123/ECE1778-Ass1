@@ -24,6 +24,8 @@ struct SignUpView: View {
     @State var selected = false
     @State var show_sheet = false
     @State var camera = false
+    @State var confirmed = false
+    @State var user_image = UIImage()
     @EnvironmentObject var session: Session
     
     
@@ -79,7 +81,7 @@ struct SignUpView: View {
     func upLoad () {
 //        let random_id = UUID.init().uuidString
         let upload_ref = Storage.storage().reference(withPath: "\(String(describing: self.session.userid))/user_img.jpg")
-        guard let image_data = self.image.jpegData(compressionQuality: 1.0) else {
+        guard let image_data = self.image.jpegData(compressionQuality: 0.5) else {
             self.error_msg = "Oh no! Something went wrong!"
             self.show.toggle()
             return
@@ -125,8 +127,8 @@ struct SignUpView: View {
                     .frame(height: 40)
                 
                 HStack (alignment: .top) {
-                    if self.selected != false {
-                        Image(uiImage: image)
+                    if self.confirmed != false {
+                        Image(uiImage: self.user_image)
                         .resizable()
                         .scaledToFill()
                         .frame(width: 100,
@@ -219,15 +221,60 @@ struct SignUpView: View {
             }
         }
         .sheet(isPresented: $picker, content: {
-            ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
+            if self.selected == false {
+                ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
+            }
+            else {
+                VStack {
+                    Image(uiImage: self.image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    
+                    HStack {
+                        Button(action: {
+                            self.selected = false
+                            self.picker = false
+                        }) {
+                            Text("DISCARD")
+                            .font(.subheadline)
+                            .frame(maxWidth: 120)
+                            .foregroundColor(Color.white)
+                            .padding()
+                            .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
+                            .padding()
+                            .shadow(radius: 10)
+                        }
+                        
+                        Button(action: {
+                            self.picker = false
+                            self.confirmed = true
+                            self.user_image = self.image
+                        }) {
+                            Text("CONFIRM")
+                            .font(.subheadline)
+                            .frame(maxWidth: 120)
+                            .foregroundColor(Color.white)
+                            .padding()
+                            .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
+                            .padding()
+                            .shadow(radius: 10)
+                        }
+                    }
+                }
+                
+            }
+            
         })
         .actionSheet(isPresented: $show_sheet, content: {
             ActionSheet(title: Text("Take a picture or select one from the gallery"), buttons: [
                 .default(Text("Take a picture"), action: {
+                    self.selected = false
                     self.camera.toggle()
                     self.picker.toggle()
+                    
                 }),
                 .default(Text("Select an existing picture"), action: {
+                    self.selected = false
                     self.picker.toggle()
                 }),
                 .cancel()])
