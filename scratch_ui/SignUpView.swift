@@ -130,7 +130,7 @@ struct SignUpView: View {
                     if self.confirmed != false {
                         Image(uiImage: self.user_image)
                         .resizable()
-                        .scaledToFill()
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 100,
                              height: 100,
                              alignment: .topLeading)
@@ -225,25 +225,12 @@ struct SignUpView: View {
                 ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
             }
             else {
-                VStack {
+                VStack (alignment: .leading) {
                     Image(uiImage: self.image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    
+                    .frame(maxWidth: .infinity)
                     HStack {
-                        Button(action: {
-                            self.selected = false
-                            self.picker = false
-                        }) {
-                            Text("DISCARD")
-                            .font(.subheadline)
-                            .frame(maxWidth: 120)
-                            .foregroundColor(Color.white)
-                            .padding()
-                            .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
-                            .padding()
-                            .shadow(radius: 10)
-                        }
                         
                         Button(action: {
                             self.picker = false
@@ -269,11 +256,12 @@ struct SignUpView: View {
             ActionSheet(title: Text("Take a picture or select one from the gallery"), buttons: [
                 .default(Text("Take a picture"), action: {
                     self.selected = false
-                    self.camera.toggle()
+                    self.camera = true
                     self.picker.toggle()
                     
                 }),
                 .default(Text("Select an existing picture"), action: {
+                    self.camera = false
                     self.selected = false
                     self.picker.toggle()
                 }),
