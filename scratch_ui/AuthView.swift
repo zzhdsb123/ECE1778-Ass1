@@ -97,6 +97,7 @@ struct AuthView: View {
     func upDate () {
         self.session.count = 0
         self.session.images = [[UIImage]]()
+        self.session.images_tracker = [[String]]()
         let db = Firestore.firestore().collection("users")
         db.document(self.session.userid!).getDocument { (snapshot, error) in
             if error != nil {
