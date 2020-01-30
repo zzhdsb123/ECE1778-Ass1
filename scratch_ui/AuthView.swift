@@ -163,42 +163,6 @@ struct AuthView: View {
                             
                         }
                         .frame(maxWidth: .infinity)
-                    if self.selected {
-                        Image(uiImage: self.image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .padding()
-                        HStack {
-                            Button(action: {
-                                self.selected = false
-                            }, label: {
-                                Text("DISCARD")
-                                .font(.subheadline)
-                                .frame(maxWidth: 120)
-                                .foregroundColor(Color.white)
-                                .padding()
-                                .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
-                                .padding()
-                                .shadow(radius: 10)
-                            })
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                self.upload()
-                            }, label: {
-                                Text("POST")
-                                .font(.subheadline)
-                                .frame(maxWidth: 120)
-                                .foregroundColor(Color.white)
-                                .padding()
-                                .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
-                                .padding()
-                                .shadow(radius: 10)
-                            })
-                        }
-                        
-                    }
                     
                     UserPhotoView(width: geo.size.width/3)
                     
@@ -226,20 +190,49 @@ struct AuthView: View {
                 .actionSheet(isPresented: self.$show_sheet) {
                 ActionSheet(title: Text("Sign out or upload a photo"), buttons: [
                 .default(Text("Take a photo"), action: {
+                    self.selected = false
                     self.camera.toggle()
                     self.picker.toggle()
                 }),
                 .default(Text("Select from the gallery"), action: {
+                    self.selected = false
                     self.picker.toggle()
                 }),
                 .default(Text("Sign out"), action: {
                     self.signOut()
                 }),
                 .cancel()])
-                
             }
                 .sheet(isPresented: self.$picker, content: {
-                    ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
+                    if self.selected == false {
+                        ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
+                    }
+                    else {
+                        VStack (alignment: .leading) {
+                            Image(uiImage: self.image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: .infinity)
+                            
+                            HStack {
+
+                                Button(action: {
+                                    self.picker = false
+                                    self.upload()
+                                }) {
+                                    Text("CONFIRM")
+                                    .font(.subheadline)
+                                    .frame(maxWidth: 120)
+                                    .foregroundColor(Color.white)
+                                    .padding()
+                                    .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
+                                    .padding()
+                                    .shadow(radius: 10)
+                                }
+                            }
+                        }
+                        
+                    }
                 })
             }
             .frame(maxWidth: .infinity)
