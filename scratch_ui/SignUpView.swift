@@ -271,8 +271,7 @@ struct SignUpView: View {
             Button(action: {
                 self.show_sheet.toggle()
             }) {
-                Image(systemName: "camera").font(.system(size: 25))
-                    .foregroundColor(Color.black)
+                Image(systemName: "camera")
             }
             
         })

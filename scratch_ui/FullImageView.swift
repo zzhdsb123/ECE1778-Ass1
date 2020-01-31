@@ -79,6 +79,7 @@ struct FullImageView: View {
                 self.showing_delete_alert.toggle()
             }) {
                 Image(systemName: "trash")
+                
             }
             
         })

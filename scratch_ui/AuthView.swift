@@ -172,6 +172,7 @@ struct AuthView: View {
                         self.show_sheet.toggle()
                     }) {
                         Image(systemName: "square.and.arrow.up")
+                        
                     }
                     
                 })
