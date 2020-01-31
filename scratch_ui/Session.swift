@@ -60,6 +60,9 @@ class Session: ObservableObject {
             self.images = [[UIImage]]()
             self.total = 0
             self.count = 0
+            self.current_image = nil
+            self.images_tracker = [[String]]()
+            self.full_image = nil
             }
             catch let err {
                 print(err)
