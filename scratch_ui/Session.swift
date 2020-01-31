@@ -25,6 +25,13 @@ class Session: ObservableObject {
     @Published var total: Int?
     @Published var count = 0
     @Published var full_image: UIImage?
+    @Published var current_image: String?
+    
+    let helpView: AuthView
+    
+    init () {
+        self.helpView = AuthView()
+    }
     
     func signIn (email: String) {
         self.email = email
@@ -127,4 +134,5 @@ class Session: ObservableObject {
         }
         //
     }
+    
 }

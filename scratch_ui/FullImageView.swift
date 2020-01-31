@@ -8,6 +8,8 @@
 
 import SwiftUI
 import FirebaseStorage
+import FirebaseFirestore
+
 
 struct FullImageView: View {
     @EnvironmentObject var session: Session
@@ -15,8 +17,50 @@ struct FullImageView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var showing_delete_alert = false
     
+    
     func delete () {
+        let db = Firestore.firestore().collection("users").document(self.session.userid!)
+        db.getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                var photos = (snapshot!.data()!["photos"] as! [String])
+                if let index = photos.firstIndex(of: self.session.current_image!) {
+                    photos.remove(at: index)
+                }
+                db.setData(["photos": photos], merge: true)
+            }
+        }
         presentationMode.wrappedValue.dismiss()
+
+        self.session.count = 0
+        self.session.images = [[UIImage]]()
+        self.session.images_tracker = [[String]]()
+        let dbb = Firestore.firestore().collection("users")
+        dbb.document(self.session.userid!).getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                self.session.total = (snapshot!.data()!["total"] as? Int)! - 1
+                self.session.getAllImg()
+            }
+        }
+        let storage_ref_thumbnail = Storage.storage().reference(withPath: "\(String(describing: self.session.userid))/\(self.session.current_image!)_thumbnail.jpg")
+        storage_ref_thumbnail.delete { (error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
+        
+        let storage_ref = Storage.storage().reference(withPath: "\(String(describing: self.session.userid))/\(self.session.current_image!).jpg")
+        storage_ref.delete { (error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
+    
     }
     
     var body: some View {

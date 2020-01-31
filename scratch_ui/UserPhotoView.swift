@@ -25,6 +25,7 @@ struct UserPhotoView: View {
                 print(error!.localizedDescription)
             }
             else {
+                self.session.current_image = name
                 self.session.full_image = UIImage(data: data!)!
             }
         }

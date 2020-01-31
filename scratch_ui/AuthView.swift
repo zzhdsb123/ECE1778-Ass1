@@ -107,10 +107,6 @@ struct AuthView: View {
             else {
                 self.session.total = (snapshot!.data()!["total"] as? Int)! - 1
                 self.session.getAllImg()
-//                print(self.session.images)
-//                print(self.session.images.count)
-//                print(self.session.count)
-//                print(self.session.total!)
             }
         }
         
