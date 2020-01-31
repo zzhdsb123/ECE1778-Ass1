@@ -27,12 +27,6 @@ class Session: ObservableObject {
     @Published var full_image: UIImage?
     @Published var current_image: String?
     
-    let helpView: AuthView
-    
-    init () {
-        self.helpView = AuthView()
-    }
-    
     func signIn (email: String) {
         self.email = email
         let key = userid!
