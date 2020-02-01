@@ -20,7 +20,7 @@ class Session: ObservableObject {
     @Published var username: String?
     @Published var userid: String?
     @Published var user_image: UIImage?
-    @Published var images = [[UIImage]]()
+    @Published var images = [[UIImage?]]()
     @Published var images_tracker = [[String]]()
     @Published var total: Int?
     @Published var count = 0
@@ -78,6 +78,34 @@ class Session: ObservableObject {
         }
     }
     
+    func rearrangeImage (images: [String]) -> [[String]] {
+        var arranged_image_name = [[String]]()
+        var arranged_images = [[UIImage?]]()
+        var temp = [String]()
+        var temp_image = [UIImage?]()
+        var count = 0
+        for image in images {
+            count += 1
+            if temp.count < 3{
+                temp.append(image)
+                temp_image.append(nil)
+            }
+            else {
+                arranged_image_name.append(temp)
+                arranged_images.append(temp_image)
+                temp = [String]()
+                temp_image = [UIImage?]()
+            }
+        }
+        if count == self.total && temp.count > 0 {
+            arranged_image_name.append(temp)
+            arranged_images.append(temp_image)
+        }
+        self.images = arranged_images
+        self.images_tracker = arranged_image_name
+        return arranged_image_name
+    }
+    
     func getAllImg () {
         let db = Firestore.firestore().collection("users").document(self.userid!)
         db.getDocument { (snapshot, error) in
@@ -85,48 +113,65 @@ class Session: ObservableObject {
                 print(error!.localizedDescription)
             }
             else {
-                let dispatchQueue = DispatchQueue(label: "taskQueue")
+//                let dispatchQueue = DispatchQueue(label: "taskQueue")
                 var images = snapshot!.data()!["photos"] as! [String]
+                
                 self.total = images.count
                 images.reverse()
-                let dispatchSemaphore = DispatchSemaphore(value: 0)
-                var temp = [UIImage]()
-                var temp_tracker = [String]()
-                
-                dispatchQueue.async {
-                    for image in images {
-                        let storage_ref = Storage.storage().reference(withPath: "\(String(describing: self.userid))/\(image)_thumbnail.jpg")
+                let total_images_name = self.rearrangeImage(images: images)
+                print(total_images_name)
+                for row in (0..<total_images_name.count) {
+                    for col in (0..<total_images_name[row].count) {
+                        let current_image = total_images_name[row][col]
+                        let storage_ref = Storage.storage().reference(withPath: "\(String(describing: self.userid))/\(current_image)_thumbnail.jpg")
                         storage_ref.getData(maxSize: 5*1024*1024) { (data, error) in
                             if error != nil {
                                 print(error!.localizedDescription)
                             }
                             else {
-                                self.count += 1
-                                if temp.count < 3 {
-                                    temp_tracker.append(image)
-                                    temp.append(UIImage(data: data!)!)
-                                }
-                                else {
-                                    self.images.append(temp)
-                                    self.images_tracker.append(temp_tracker)
-//                                    print(self.images)
-                                    temp = [UIImage]()
-                                    temp_tracker = [String]()
-                                    temp.append(UIImage(data: data!)!)
-                                    temp_tracker.append(image)
-                                    
-                                }
-                                if self.count == self.total && temp.count > 0 {
-                                    self.images.append(temp)
-                                    self.images_tracker.append(temp_tracker)
-                                }
-                                dispatchSemaphore.signal()
+                                self.images[row][col] = UIImage(data: data!)
                             }
                         }
-                        dispatchSemaphore.wait()
                     }
-//                    print(self.images_tracker)
                 }
+                
+//                let dispatchSemaphore = DispatchSemaphore(value: 0)
+//                var temp = [UIImage]()
+//                var temp_tracker = [String]()
+//
+//                    for image in images {
+//                        let storage_ref = Storage.storage().reference(withPath: "\(String(describing: self.userid))/\(image)_thumbnail.jpg")
+//                        storage_ref.getData(maxSize: 5*1024*1024) { (data, error) in
+//                            if error != nil {
+//                                print(error!.localizedDescription)
+//                            }
+//                            else {
+//                                self.count += 1
+//                                if temp.count < 3 {
+//                                    temp_tracker.append(image)
+//                                    temp.append(UIImage(data: data!)!)
+//                                }
+//                                else {
+//                                    self.images.append(temp)
+//                                    self.images_tracker.append(temp_tracker)
+////                                    print(self.images)
+//                                    temp = [UIImage]()
+//                                    temp_tracker = [String]()
+//                                    temp.append(UIImage(data: data!)!)
+//                                    temp_tracker.append(image)
+//
+//                                }
+//                                if self.count == self.total && temp.count > 0 {
+//                                    self.images.append(temp)
+//                                    self.images_tracker.append(temp_tracker)
+//                                }
+//                                dispatchSemaphore.signal()
+//                            }
+//                        }
+//                        dispatchSemaphore.wait()
+//                    }
+////                    print(self.images_tracker)
+                                
             }
         }
         //

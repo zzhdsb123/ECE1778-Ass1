@@ -40,12 +40,23 @@ struct UserPhotoView: View {
                     HStack (spacing: 0) {
                         ForEach(0..<self.session.images[images].count, id: \.self) {image in
                             NavigationLink(destination: FullImageView()) {
-                                Image(uiImage: self.session.images[images][image])
-                                .renderingMode(.original)
-                                .resizable()
-                                .padding(5)
-                                .frame(width: self.width, height: self.width)
-                                .aspectRatio(contentMode: .fit)
+                                if self.session.images[images][image] != nil {
+                                    Image(uiImage: self.session.images[images][image]!)
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .padding(5)
+                                    .frame(width: self.width, height: self.width)
+                                    .aspectRatio(contentMode: .fit)
+                                }
+//                                else {
+//                                    Image(systemName: "person")
+//                                    .renderingMode(.original)
+//                                    .resizable()
+//                                    .padding(5)
+//                                    .frame(width: self.width, height: self.width)
+//                                    .aspectRatio(contentMode: .fit)
+//                                }
+                                
                             }
                             .buttonStyle(PlainButtonStyle())
                             .simultaneousGesture(TapGesture().onEnded({
