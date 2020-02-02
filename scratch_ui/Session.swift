@@ -95,9 +95,11 @@ class Session: ObservableObject {
                 arranged_images.append(temp_image)
                 temp = [String]()
                 temp_image = [UIImage?]()
+                temp.append(image)
+                temp_image.append(nil)
             }
         }
-        if count == self.total && temp.count > 0 {
+        if count == self.total! && temp.count > 0 {
             arranged_image_name.append(temp)
             arranged_images.append(temp_image)
         }
@@ -115,7 +117,6 @@ class Session: ObservableObject {
             else {
 //                let dispatchQueue = DispatchQueue(label: "taskQueue")
                 var images = snapshot!.data()!["photos"] as! [String]
-                
                 self.total = images.count
                 images.reverse()
                 let total_images_name = self.rearrangeImage(images: images)
