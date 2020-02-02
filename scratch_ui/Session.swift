@@ -135,46 +135,8 @@ class Session: ObservableObject {
                     }
                 }
                 
-//                let dispatchSemaphore = DispatchSemaphore(value: 0)
-//                var temp = [UIImage]()
-//                var temp_tracker = [String]()
-//
-//                    for image in images {
-//                        let storage_ref = Storage.storage().reference(withPath: "\(String(describing: self.userid))/\(image)_thumbnail.jpg")
-//                        storage_ref.getData(maxSize: 5*1024*1024) { (data, error) in
-//                            if error != nil {
-//                                print(error!.localizedDescription)
-//                            }
-//                            else {
-//                                self.count += 1
-//                                if temp.count < 3 {
-//                                    temp_tracker.append(image)
-//                                    temp.append(UIImage(data: data!)!)
-//                                }
-//                                else {
-//                                    self.images.append(temp)
-//                                    self.images_tracker.append(temp_tracker)
-////                                    print(self.images)
-//                                    temp = [UIImage]()
-//                                    temp_tracker = [String]()
-//                                    temp.append(UIImage(data: data!)!)
-//                                    temp_tracker.append(image)
-//
-//                                }
-//                                if self.count == self.total && temp.count > 0 {
-//                                    self.images.append(temp)
-//                                    self.images_tracker.append(temp_tracker)
-//                                }
-//                                dispatchSemaphore.signal()
-//                            }
-//                        }
-//                        dispatchSemaphore.wait()
-//                    }
-////                    print(self.images_tracker)
-                                
             }
         }
-        //
     }
     
 }

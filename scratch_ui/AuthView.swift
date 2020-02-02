@@ -20,6 +20,7 @@ struct AuthView: View {
     @State var camera = false
     @State var show = false
     @State var post_preview = false
+    @State var sign_out_alert = false
     
     func uploadImage (name: String) {
         
@@ -161,20 +162,24 @@ struct AuthView: View {
                         .frame(maxWidth: .infinity)
                     
                     UserPhotoView(width: geo.size.width/3)
+                    .alert(isPresented: self.$show) {
+                        Alert(title: Text(self.error_msg))
+                    }
                     
                 }
-                .alert(isPresented: self.$show) {
-                    Alert(title: Text(self.error_msg))
-                }
+                
+                .alert(isPresented: self.$sign_out_alert, content: {
+                    Alert(title: Text("Sign out"), message: Text("Are you sure?"), primaryButton: .destructive(Text("SIGN OUT")){
+                    self.signOut()
+                    }, secondaryButton: .cancel())
+                })
                 .frame(maxWidth: .infinity)
                 .navigationBarItems(trailing: HStack {
                     Button(action: {
                         self.show_sheet.toggle()
                     }) {
                         Image(systemName: "square.and.arrow.up")
-                        
                     }
-                    
                 })
                 .navigationBarTitle(Text("Profile").font(.subheadline), displayMode: .inline)
                 .background(
@@ -195,8 +200,8 @@ struct AuthView: View {
                     self.selected = false
                     self.picker.toggle()
                 }),
-                .default(Text("Sign out"), action: {
-                    self.signOut()
+                .destructive(Text("Sign out"), action: {
+                    self.sign_out_alert.toggle()
                 }),
                 .cancel()])
             }
