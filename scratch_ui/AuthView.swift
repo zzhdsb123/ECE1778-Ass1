@@ -123,16 +123,36 @@ struct AuthView: View {
                         .frame(height: 30)
                     HStack {
                         if self.session.user_image != nil {
-                            Image(uiImage: self.session.user_image!)
-                                .resizable()
-                                .frame(width: 120,
-                                       height: 120,
-                                       alignment: .topLeading)
-                                .background(Color.gray)
-                                .foregroundColor(Color.white)
-                                .clipShape(Circle())
-                                .shadow(radius: 10)
-                                .padding()
+                            ZStack {
+                                
+                                Button(action: {
+                                    self.show_sheet.toggle()
+                                }) {
+                                    Image(systemName: "camera")
+                                    .resizable()
+                                    .frame(width: 60, height: 50)
+                                    .foregroundColor(Color.white)
+                                    .padding()
+                                    .offset(x: -55, y: 35)
+                                    .shadow(radius: 10)
+                                }
+                                
+                                Image(uiImage: self.session.user_image!)
+                                    .resizable()
+                                    .frame(width: 120,
+                                           height: 120,
+                                           alignment: .topLeading)
+                                    .background(Color.gray)
+                                    .foregroundColor(Color.white)
+                                    .clipShape(Circle())
+                                    .shadow(radius: 10)
+                                    .padding()
+                                    .zIndex(-1)
+                                
+                                
+                            }
+                            
+                            
                         }
                         else {
                             Image(systemName: "person")
@@ -162,9 +182,7 @@ struct AuthView: View {
                         .frame(maxWidth: .infinity)
                     
                     UserPhotoView(width: geo.size.width/3)
-                    .alert(isPresented: self.$show) {
-                        Alert(title: Text(self.error_msg))
-                    }
+                    
                     
                 }
                 
@@ -176,9 +194,9 @@ struct AuthView: View {
                 .frame(maxWidth: .infinity)
                 .navigationBarItems(trailing: HStack {
                     Button(action: {
-                        self.show_sheet.toggle()
+                        self.sign_out_alert.toggle()
                     }) {
-                        Image(systemName: "square.and.arrow.up")
+                        Text("SIGN OUT")
                     }
                 })
                 .navigationBarTitle(Text("Profile").font(.subheadline), displayMode: .inline)
@@ -189,7 +207,7 @@ struct AuthView: View {
                 .edgesIgnoringSafeArea(.all)
                 )
                 .actionSheet(isPresented: self.$show_sheet) {
-                ActionSheet(title: Text("Sign out or upload a photo"), buttons: [
+                ActionSheet(title: Text("Upload a photo"), buttons: [
                 .default(Text("Take a photo"), action: {
                     self.selected = false
                     self.camera = true
@@ -199,9 +217,6 @@ struct AuthView: View {
                     self.camera = false
                     self.selected = false
                     self.picker.toggle()
-                }),
-                .destructive(Text("Sign out"), action: {
-                    self.sign_out_alert.toggle()
                 }),
                 .cancel()])
             }
