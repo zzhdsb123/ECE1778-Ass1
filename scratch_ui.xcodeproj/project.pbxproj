@@ -132,6 +132,28 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F50DB67023EF51D000B71CE1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F51DECF223CFE9DD00C9BA27 /* SignUpView.swift */,
+				F51DECF423CFEA4800C9BA27 /* SignInView.swift */,
+				F51DECFE23D10D2900C9BA27 /* AuthView.swift */,
+				F554A56B23DD53FC00BCA057 /* ImagePickerView.swift */,
+				F547D27E23D2C9920054CE1D /* ScratchView.swift */,
+				F512768A23E2565C00B99BF9 /* UserPhotoView.swift */,
+				F512768C23E26EF300B99BF9 /* FullImageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F50DB67123EF51EC00B71CE1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F51DECFC23D10A3300C9BA27 /* Session.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		F585490423C6E11000189050 = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +179,8 @@
 		F585490F23C6E11000189050 /* scratch_ui */ = {
 			isa = PBXGroup;
 			children = (
+				F50DB67023EF51D000B71CE1 /* Views */,
+				F50DB67123EF51EC00B71CE1 /* Models */,
 				F585491023C6E11000189050 /* AppDelegate.swift */,
 				F585491223C6E11000189050 /* SceneDelegate.swift */,
 				F585491423C6E11000189050 /* ContentView.swift */,
@@ -164,14 +188,6 @@
 				F526E8DE23D1656A0079E8DC /* Assets.xcassets */,
 				F5A1DBC823CD2E6C00A91229 /* GoogleService-Info.plist */,
 				F585491E23C6E11200189050 /* Info.plist */,
-				F51DECF223CFE9DD00C9BA27 /* SignUpView.swift */,
-				F51DECF423CFEA4800C9BA27 /* SignInView.swift */,
-				F51DECFE23D10D2900C9BA27 /* AuthView.swift */,
-				F51DECFC23D10A3300C9BA27 /* Session.swift */,
-				F554A56B23DD53FC00BCA057 /* ImagePickerView.swift */,
-				F547D27E23D2C9920054CE1D /* ScratchView.swift */,
-				F512768A23E2565C00B99BF9 /* UserPhotoView.swift */,
-				F512768C23E26EF300B99BF9 /* FullImageView.swift */,
 				F5BC001B23DA52B700440885 /* temp */,
 				F585491823C6E11200189050 /* Preview Content */,
 			);
