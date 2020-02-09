@@ -19,16 +19,18 @@ struct DetailView: View {
 }
 
 struct ContentView: View {
-    @EnvironmentObject var session : Session
+    @EnvironmentObject var session: Session
 
-    @ViewBuilder
     var body: some View {
-        if self.session.isLoggedIn != nil {
-            AuthView()
+        Group {
+            if session.user_id != nil {
+                UserView()
+            }
+            else {
+                SignInView()
+            }
         }
-        else {
-            SignInView()
-        }
+        
     }
 }
 

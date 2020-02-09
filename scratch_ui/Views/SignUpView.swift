@@ -2,7 +2,7 @@
 //  SignUpView.swift
 //  scratch_ui
 //
-//  Created by Artorias on 2020-01-15.
+//  Created by Artorias on 2020-02-08.
 //  Copyright © 2020 Artorias. All rights reserved.
 //
 
@@ -12,111 +12,27 @@ import FirebaseFirestore
 import FirebaseStorage
 
 struct SignUpView: View {
-    @State var email = ""
-    @State var password = ""
-    @State var confirm_password = ""
-    @State var username = ""
-    @State var bio = ""
-    @State var show = false
+    @State var email = "test@test.com"
+    @State var password = "password"
+    @State var confirm_password = "password"
+    @State var username = "Artorias"
+    @State var bio = "I am a banana"
     @State var error_msg = ""
+    @State var err_show = false
     @State var picker = false
-    @State var image = UIImage()
-    @State var selected = false
     @State var show_sheet = false
+    @State var user_image: UIImage?
+    @State var selected = false
     @State var camera = false
-    @State var confirmed = false
-    @State var user_image = UIImage()
+    @State var image = UIImage()
     @EnvironmentObject var session: Session
     
-    
     func signUp () {
-        if self.email == "" || self.password == "" || self.confirm_password == "" || self.username == "" || self.bio == "" {
-            self.error_msg = "Please fill in the required field."
-            self.show.toggle()
-        }
-        
-        else if self.password != self.confirm_password {
-            self.error_msg = "Passwords need to be the same."
-            self.show.toggle()
-        }
-            
-        else if self.selected == false {
-            self.error_msg = "Please select an image!"
-            self.show.toggle()
-        }
-            
-        else {
-            Auth.auth().createUser(withEmail: self.email, password: self.password) {
-                (res, err) in  if err != nil {
-                    self.error_msg =  err!.localizedDescription
-                    self.show.toggle()
-                    }
-                else {
-                    
-                    Auth.auth().signIn(withEmail: self.email, password: self.password) { (res, err) in
-                        if err != nil {
-                            self.error_msg = err!.localizedDescription
-                            self.show.toggle()
-                        }
-                    }
-                    if Auth.auth().currentUser != nil {
-                        self.session.userid = Auth.auth().currentUser!.uid
-                        let db = Firestore.firestore().collection("users")
-                        db.document(self.session.userid!).setData(["username": self.username, "bio": self.bio, "email": self.email, "photos": [String](), "total": 1])
-                        self.upLoad()
-                        self.session.user_image = self.image
-                        self.session.signIn(email: self.email)
-                        
-                    }
-                    else {
-                        self.error_msg = "Oh no, something went wrong!"
-                        self.show.toggle()
-                    }
-                }
-            
-            }
-        }
-    }
-    
-    func upLoad () {
-//        let random_id = UUID.init().uuidString
-        let upload_ref = Storage.storage().reference(withPath: "\(String(describing: self.session.userid))/user_img.jpg")
-        guard let image_data = self.image.jpegData(compressionQuality: 0.5) else {
-            self.error_msg = "Oh no! Something went wrong!"
-            self.show.toggle()
-            return
-        }
-        let meta_data = StorageMetadata.init()
-        meta_data.contentType = "image/jpeg"
-        upload_ref.putData(image_data, metadata: meta_data) { (junk, error) in
+        self.session.signUp(email: self.email, password: self.password, confirm_password: self.confirm_password, username: self.username, bio: self.bio, user_img: self.user_image) { (error) in
             if error != nil {
-                self.error_msg = error!.localizedDescription
-                self.show.toggle()
+                self.error_msg = error!
+                self.err_show.toggle()
             }
-            else {
-                self.error_msg = "Success!"
-                self.show.toggle()
-            }
-            
-        }
-        
-        
-        let upload_ref_thumbnail = Storage.storage().reference(withPath: "\(String(describing: self.session.userid))/user_img_thumbnail.jpg")
-        guard let image_data_thumbnail = self.image.jpegData(compressionQuality: 0.25) else {
-            self.error_msg = "Oh no! Something went wrong!"
-            self.show.toggle()
-            return
-        }
-        upload_ref_thumbnail.putData(image_data_thumbnail, metadata: meta_data) { (junk, error) in
-            if error != nil {
-                self.error_msg = error!.localizedDescription
-                self.show.toggle()
-            }
-            else {
-                self.error_msg = "Success!"
-                self.show.toggle()
-            }
-            
         }
     }
     
@@ -124,11 +40,11 @@ struct SignUpView: View {
         HStack(alignment: .top) {
             ScrollView {
                 Spacer()
-                    .frame(height: 40)
+                .frame(height: 40)
                 
                 HStack (alignment: .top) {
-                    if self.confirmed != false {
-                        Image(uiImage: self.user_image)
+                    if self.user_image != nil {
+                        Image(uiImage: self.user_image!)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 100,
@@ -141,7 +57,6 @@ struct SignUpView: View {
                     }
                     else {
                         Image(systemName: "person")
-                        
                         .resizable()
                         .scaledToFill()
                         .padding()
@@ -216,40 +131,12 @@ struct SignUpView: View {
                 }
                 Spacer()
             }
-            .alert(isPresented: $show) {
+            .alert(isPresented: $err_show) {
                 Alert(title: Text(self.error_msg))
             }
         }
         .sheet(isPresented: $picker, content: {
-            if self.selected == false {
-                ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
-            }
-            else {
-                VStack (alignment: .leading) {
-                    Image(uiImage: self.image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity)
-                    HStack {
-                        
-                        Button(action: {
-                            self.picker = false
-                            self.confirmed = true
-                            self.user_image = self.image
-                        }) {
-                            Text("CONFIRM")
-                            .font(.subheadline)
-                            .frame(maxWidth: 120)
-                            .foregroundColor(Color.white)
-                            .padding()
-                            .background(Color(red: 100 / 255, green: 100 / 255, blue: 100 / 255))
-                            .padding()
-                            .shadow(radius: 10)
-                        }
-                    }
-                }
-                
-            }
+            ImageSelect(picker: self.$picker, image: self.$image, selected: self.$selected, camera: self.$camera, user_image: self.$user_image)
             
         })
         .actionSheet(isPresented: $show_sheet, content: {
@@ -282,9 +169,9 @@ struct SignUpView: View {
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.all)
         )
+    
     }
 }
-
 
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {

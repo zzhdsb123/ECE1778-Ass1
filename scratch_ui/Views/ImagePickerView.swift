@@ -2,11 +2,10 @@
 //  ImagePickerView.swift
 //  scratch_ui
 //
-//  Created by Artorias on 2020-01-25.
+//  Created by Artorias on 2020-02-08.
 //  Copyright © 2020 Artorias. All rights reserved.
 //
 
-import Foundation
 import SwiftUI
 
 struct ImagePickerView: UIViewControllerRepresentable {
@@ -16,6 +15,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
     @Binding var selected: Bool
     @Binding var camera: Bool
     typealias UIViewControllerType = UIImagePickerController
+    @EnvironmentObject var session: Session
     
     func makeCoordinator() -> ImagePickerView.Coordinator {
         return Coordinator(parent: self)

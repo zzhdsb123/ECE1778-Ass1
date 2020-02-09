@@ -2,7 +2,7 @@
 //  SignInView.swift
 //  scratch_ui
 //
-//  Created by Artorias on 2020-01-15.
+//  Created by Artorias on 2020-02-08.
 //  Copyright © 2020 Artorias. All rights reserved.
 //
 
@@ -12,32 +12,25 @@ import FirebaseStorage
 
 struct SignInView: View {
     @State var error_msg = ""
-    @State var show = false
-    @State var email = ""
-    @State var password = ""
+    @State var err_show = false
+    @State var email = "test@test.com"
+    @State var password = "password"
     @EnvironmentObject var session: Session
     
-    
-    
     func signIn () {
-        Auth.auth().signIn(withEmail: self.email, password: self.password) { (res, err) in
+        self.session.signIn(email: self.email, password: self.password) { (err) in
             if err != nil {
-                self.error_msg = err!.localizedDescription
-                self.show.toggle()
-            }
-            else {
-                self.session.userid = Auth.auth().currentUser!.uid
-                self.session.signIn(email: self.email)
+                self.error_msg = err!
+                self.err_show.toggle()
             }
         }
     }
     
     var body: some View {
-
         NavigationView {
             HStack(alignment: .top) {
                 VStack() {
-                    Text("My Instagram")
+                    Text("Fake Instagram")
                         .font(.title)
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                         .padding()
@@ -102,10 +95,10 @@ struct SignInView: View {
                 .navigationBarHidden(false)
                 .navigationBarBackButtonHidden(true)
         }
-        .alert(isPresented: $show) {
+        .alert(isPresented: $err_show) {
             Alert(title: Text(self.error_msg))}
-    }
     
+    }
 }
 
 struct SignInView_Previews: PreviewProvider {
