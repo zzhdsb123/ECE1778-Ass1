@@ -15,6 +15,9 @@
 		F50DB67823EF60FC00B71CE1 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DB67723EF60FC00B71CE1 /* ImagePickerView.swift */; };
 		F50DB67A23EF63A000B71CE1 /* UserImageSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DB67923EF63A000B71CE1 /* UserImageSelect.swift */; };
 		F50DB67C23EF750C00B71CE1 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DB67B23EF750C00B71CE1 /* UserView.swift */; };
+		F50DB68323EFD2AA00B71CE1 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DB68223EFD2AA00B71CE1 /* AuthView.swift */; };
+		F50DB68523EFD36600B71CE1 /* GlobalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DB68423EFD36600B71CE1 /* GlobalView.swift */; };
+		F50DB68723EFD69000B71CE1 /* UserImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DB68623EFD69000B71CE1 /* UserImageView.swift */; };
 		F51DECFD23D10A3300C9BA27 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DECFC23D10A3300C9BA27 /* Session.swift */; };
 		F526E8DF23D1656A0079E8DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F526E8DE23D1656A0079E8DC /* Assets.xcassets */; };
 		F585491123C6E11000189050 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F585491023C6E11000189050 /* AppDelegate.swift */; };
@@ -58,6 +61,9 @@
 		F50DB67723EF60FC00B71CE1 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		F50DB67923EF63A000B71CE1 /* UserImageSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImageSelect.swift; sourceTree = "<group>"; };
 		F50DB67B23EF750C00B71CE1 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		F50DB68223EFD2AA00B71CE1 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		F50DB68423EFD36600B71CE1 /* GlobalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalView.swift; sourceTree = "<group>"; };
+		F50DB68623EFD69000B71CE1 /* UserImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImageView.swift; sourceTree = "<group>"; };
 		F51DECFC23D10A3300C9BA27 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		F526E8DE23D1656A0079E8DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F585490D23C6E11000189050 /* scratch_ui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scratch_ui.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,6 +142,9 @@
 				F50DB67923EF63A000B71CE1 /* UserImageSelect.swift */,
 				F50DB67723EF60FC00B71CE1 /* ImagePickerView.swift */,
 				F50DB67B23EF750C00B71CE1 /* UserView.swift */,
+				F50DB68223EFD2AA00B71CE1 /* AuthView.swift */,
+				F50DB68423EFD36600B71CE1 /* GlobalView.swift */,
+				F50DB68623EFD69000B71CE1 /* UserImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -461,12 +470,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F50DB68523EFD36600B71CE1 /* GlobalView.swift in Sources */,
 				F51DECFD23D10A3300C9BA27 /* Session.swift in Sources */,
 				F585491123C6E11000189050 /* AppDelegate.swift in Sources */,
+				F50DB68723EFD69000B71CE1 /* UserImageView.swift in Sources */,
 				F585491323C6E11000189050 /* SceneDelegate.swift in Sources */,
 				F585491523C6E11000189050 /* ContentView.swift in Sources */,
 				F50DB67823EF60FC00B71CE1 /* ImagePickerView.swift in Sources */,
 				F50DB67623EF5DE900B71CE1 /* SignUpView.swift in Sources */,
+				F50DB68323EFD2AA00B71CE1 /* AuthView.swift in Sources */,
 				F50DB67423EF5D1100B71CE1 /* SignInView.swift in Sources */,
 				F50DB67C23EF750C00B71CE1 /* UserView.swift in Sources */,
 				F50DB67A23EF63A000B71CE1 /* UserImageSelect.swift in Sources */,

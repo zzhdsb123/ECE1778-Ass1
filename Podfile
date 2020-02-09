@@ -22,5 +22,5 @@ target 'scratch_ui' do
   pod 'Firebase/Firestore'
   pod 'IQKeyboardManagerSwift'
   pod 'Firebase/Storage'
-  pod 'Firebase/MLVision'
+  pod 'Firebase/MLVisionLabelModel'
 end

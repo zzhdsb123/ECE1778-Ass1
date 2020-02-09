@@ -24,7 +24,7 @@ struct ContentView: View {
     var body: some View {
         Group {
             if session.user_id != nil {
-                UserView()
+                AuthView()
             }
             else {
                 SignInView()
