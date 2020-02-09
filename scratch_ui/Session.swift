@@ -21,6 +21,31 @@ class Session: ObservableObject {
     @Published var user_image_list = [[UIImage?]]()
     @Published var user_image_tracker = [[String]]()
     
+    func getImageDetail (name: String, completion: @escaping (_ result: [String: String]) -> Void) {
+        let db = Firestore.firestore().collection("photos").document(name)
+        var result = [String: String]()
+        db.getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                result["caption"] = snapshot!.data()!["caption"] as? String
+                result["hash_tag"] = snapshot!.data()!["hash_tag"] as? String
+                result["comment"] = snapshot!.data()!["comment"] as? String
+                result["uploader"] = snapshot!.data()!["uploader"] as? String
+                completion(result)
+            }
+        }
+    }
+    
+    func loadFullImage (name: String, completion: @escaping (_ result: UIImage?) -> Void) {
+        let storage_ref = Storage.storage().reference(withPath: "photos/\(name).jpg")
+        storage_ref.getData(maxSize: 5*1024*1024) { (data, error) in
+            let full_image = UIImage(data: data!)
+            completion(full_image)
+        }
+    }
+    
     func loadAllUserImages () {
         let db = Firestore.firestore().collection("users").document(self.user_id!)
         db.getDocument { (snapshot, error) in
@@ -45,6 +70,50 @@ class Session: ObservableObject {
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    func rearrage (list: [Any]) -> [[Any]] {
+        var arranged_list = [[Any]]()
+        var temp = [Any]()
+        let total = list.count
+        var count = 0
+        for item in list {
+            count += 1
+            if temp.count < 3 {
+                temp.append(item)
+                
+            }
+            else {
+                arranged_list.append(temp)
+                temp = [item]
+            }
+        }
+        if count == total && temp.count > 0 {
+            arranged_list.append(temp)
+        }
+        return arranged_list
+    }
+    
+    func updateAfterUplaod (last_upload: UIImage) {
+        let db = Firestore.firestore().collection("users").document(self.user_id!)
+        db.getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                var images_name = snapshot!.data()!["photos"] as! [String]
+                images_name.reverse()
+                let last_image = last_upload
+                var images = [UIImage]()
+                for rows in self.user_image_list {
+                    images += rows as! [UIImage]
+                }
+                images.insert(last_image, at: 0)
+                self.user_image_tracker = self.rearrage(list: images_name) as! [[String]]
+                self.user_image_list = self.rearrage(list: images) as! [[UIImage]]
+
             }
         }
     }
@@ -140,6 +209,7 @@ class Session: ObservableObject {
                 completion(error!.localizedDescription)
                 return
             }
+            
 
         }
 
@@ -153,6 +223,9 @@ class Session: ObservableObject {
             if error != nil {
                 completion(error!.localizedDescription)
                 return
+            }
+            else {
+                self.updateAfterUplaod(last_upload: image)
             }
 
         }

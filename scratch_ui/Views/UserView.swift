@@ -74,8 +74,11 @@ struct UserView: View {
                             Text(self.session.user_info["bio"] ?? "Loading bio...")
                             .foregroundColor(Color.white)
                         }
+                        
+                        
                     }
-                .frame(maxWidth: .infinity)
+                        .frame(maxWidth: .infinity)
+                    UserImageView(width: geo.size.width / 3)
                     
                 }
                 .sheet(isPresented: self.$picker, content: {

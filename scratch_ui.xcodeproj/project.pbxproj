@@ -18,6 +18,7 @@
 		F50DB68323EFD2AA00B71CE1 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DB68223EFD2AA00B71CE1 /* AuthView.swift */; };
 		F50DB68523EFD36600B71CE1 /* GlobalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DB68423EFD36600B71CE1 /* GlobalView.swift */; };
 		F50DB68723EFD69000B71CE1 /* UserImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DB68623EFD69000B71CE1 /* UserImageView.swift */; };
+		F50DB68923EFEF9700B71CE1 /* FullImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50DB68823EFEF9700B71CE1 /* FullImageView.swift */; };
 		F51DECFD23D10A3300C9BA27 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DECFC23D10A3300C9BA27 /* Session.swift */; };
 		F526E8DF23D1656A0079E8DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F526E8DE23D1656A0079E8DC /* Assets.xcassets */; };
 		F585491123C6E11000189050 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F585491023C6E11000189050 /* AppDelegate.swift */; };
@@ -64,9 +65,10 @@
 		F50DB68223EFD2AA00B71CE1 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		F50DB68423EFD36600B71CE1 /* GlobalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalView.swift; sourceTree = "<group>"; };
 		F50DB68623EFD69000B71CE1 /* UserImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImageView.swift; sourceTree = "<group>"; };
+		F50DB68823EFEF9700B71CE1 /* FullImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullImageView.swift; sourceTree = "<group>"; };
 		F51DECFC23D10A3300C9BA27 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		F526E8DE23D1656A0079E8DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F585490D23C6E11000189050 /* scratch_ui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scratch_ui.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F585490D23C6E11000189050 /* Fake Ins Remastered.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fake Ins Remastered.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F585491023C6E11000189050 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F585491223C6E11000189050 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F585491423C6E11000189050 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				F50DB68223EFD2AA00B71CE1 /* AuthView.swift */,
 				F50DB68423EFD36600B71CE1 /* GlobalView.swift */,
 				F50DB68623EFD69000B71CE1 /* UserImageView.swift */,
+				F50DB68823EFEF9700B71CE1 /* FullImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -171,7 +174,7 @@
 		F585490E23C6E11000189050 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F585490D23C6E11000189050 /* scratch_ui.app */,
+				F585490D23C6E11000189050 /* Fake Ins Remastered.app */,
 				F585492323C6E11200189050 /* scratch_uiTests.xctest */,
 				F585492E23C6E11200189050 /* scratch_uiUITests.xctest */,
 			);
@@ -249,7 +252,7 @@
 			);
 			name = scratch_ui;
 			productName = scratch_ui;
-			productReference = F585490D23C6E11000189050 /* scratch_ui.app */;
+			productReference = F585490D23C6E11000189050 /* Fake Ins Remastered.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F585492223C6E11200189050 /* scratch_uiTests */ = {
@@ -475,6 +478,7 @@
 				F585491123C6E11000189050 /* AppDelegate.swift in Sources */,
 				F50DB68723EFD69000B71CE1 /* UserImageView.swift in Sources */,
 				F585491323C6E11000189050 /* SceneDelegate.swift in Sources */,
+				F50DB68923EFEF9700B71CE1 /* FullImageView.swift in Sources */,
 				F585491523C6E11000189050 /* ContentView.swift in Sources */,
 				F50DB67823EF60FC00B71CE1 /* ImagePickerView.swift in Sources */,
 				F50DB67623EF5DE900B71CE1 /* SignUpView.swift in Sources */,
@@ -657,7 +661,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "--.scratch-ui";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Fake Ins Remastered";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -678,7 +682,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "--.scratch-ui";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Fake Ins Remastered";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

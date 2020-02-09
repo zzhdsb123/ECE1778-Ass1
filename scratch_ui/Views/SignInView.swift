@@ -30,7 +30,7 @@ struct SignInView: View {
         NavigationView {
             HStack(alignment: .top) {
                 VStack() {
-                    Text("Fake Instagram")
+                    Text("Fake Instagram Remastered")
                         .font(.title)
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                         .padding()
