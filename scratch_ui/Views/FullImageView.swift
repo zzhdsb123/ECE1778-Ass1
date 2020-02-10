@@ -13,7 +13,7 @@ struct FullImageView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var showing_delete_alert = false
     @State var image: UIImage?
-    @State var caption = "???"
+    @State var caption = ""
     @State var hashtags = ""
     
     var name: String
@@ -21,6 +21,7 @@ struct FullImageView: View {
     init (name: String) {
         self.name = name
     }
+    
     
     
     var body: some View {
@@ -67,7 +68,8 @@ struct FullImageView: View {
         })
         .alert(isPresented: $showing_delete_alert) {
             Alert(title: Text("Delete Image"), message: Text("Are you sure?"), primaryButton: .destructive(Text("DELETE")){
-//                    self.delete()
+                self.session.deleteImage(name: self.name)
+                self.presentationMode.wrappedValue.dismiss()
                 }, secondaryButton: .cancel())
         }
     }

@@ -21,6 +21,65 @@ class Session: ObservableObject {
     @Published var user_image_list = [[UIImage?]]()
     @Published var user_image_tracker = [[String]]()
     
+    func deleteImage (name: String) {
+        var user_image_tracker_temp = [String]()
+        for i in self.user_image_tracker {
+            user_image_tracker_temp += i
+        }
+        var user_image_list_temp = [UIImage?]()
+        for i in self.user_image_list {
+            user_image_list_temp += i
+        }
+        if let index = user_image_tracker_temp.firstIndex(of: name) {
+            user_image_tracker_temp.remove(at: index)
+            user_image_list_temp.remove(at: index)
+            self.user_image_tracker = self.rearrage(list: user_image_tracker_temp) as! [[String]]
+            self.user_image_list = self.rearrage(list: user_image_list_temp as [Any]) as! [[UIImage]]
+        }
+        let db = Firestore.firestore()
+        db.collection("users").document(self.user_id!).getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                var photos = snapshot!.data()!["photos"] as! [String]
+                if let index = photos.firstIndex(of: name) {
+                    photos.remove(at: index)
+                    db.collection("users").document(self.user_id!).setData(["photos": photos], merge: true)
+                }
+            }
+        }
+        db.collection("photos").document("general").getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                var photos = snapshot!.data()!["photos"] as! [String]
+                if let index = photos.firstIndex(of: name) {
+                    photos.remove(at: index)
+                    db.collection("photos").document("general").setData(["photos": photos], merge: true)
+                }
+            }
+        }
+        db.collection("photos").document(name).delete() { error in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
+        let storage_ref = Storage.storage().reference(withPath: "photos/\(name).jpg")
+        storage_ref.delete { (error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
+        let storage_ref_thumbnail = Storage.storage().reference(withPath: "photos/\(name)_thumbnail.jpg")
+        storage_ref_thumbnail.delete { (error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
+    }
+    
     func getImageDetail (name: String, completion: @escaping (_ result: [String: String]) -> Void) {
         let db = Firestore.firestore().collection("photos").document(name)
         var result = [String: String]()
