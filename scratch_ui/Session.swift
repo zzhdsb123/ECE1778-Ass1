@@ -21,6 +21,42 @@ class Session: ObservableObject {
     @Published var user_image_list = [[UIImage?]]()
     @Published var user_image_tracker = [[String]]()
     
+    func loadComment (image_name: String, completion: @escaping (_ comments: [[String: String]]) -> Void) {
+        let db = Firestore.firestore().collection("photos").document(image_name)
+        db.getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                let comments = snapshot!.data()!["comment"] as! [[String: String]]
+                completion(comments)
+            }
+        }
+    }
+    
+    func postComment (comment: String, image_name: String) {
+        let db = Firestore.firestore().collection("photos").document(image_name)
+        db.getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                var comments = snapshot!.data()!["comment"] as! [[String: String]]
+                let new_comment = ["user_id": self.user_id!, "comment": comment, "username": self.user_info["username"]]
+                comments.append(new_comment as! [String : String])
+                db.setData(["comment": comments], merge: true)
+            }
+        }
+    }
+    
+    func signOut () {
+        self.user_image = nil
+        self.user_info = [String:String]()
+        self.user_image_list = [[UIImage?]]()
+        self.user_image_tracker = [[String]]()
+        self.user_id = nil
+    }
+    
     func deleteImage (name: String) {
         var user_image_tracker_temp = [String]()
         for i in self.user_image_tracker {
@@ -90,7 +126,6 @@ class Session: ObservableObject {
             else {
                 result["caption"] = snapshot!.data()!["caption"] as? String
                 result["hash_tag"] = snapshot!.data()!["hash_tag"] as? String
-                result["comment"] = snapshot!.data()!["comment"] as? String
                 result["uploader"] = snapshot!.data()!["uploader"] as? String
                 completion(result)
             }

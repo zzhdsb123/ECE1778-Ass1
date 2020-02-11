@@ -33,14 +33,6 @@ struct UserImageView: View {
                                     .frame(width: self.width, height: self.width)
                                     .aspectRatio(contentMode: .fit)
                                 }
-//                                else {
-//                                    Image(systemName: "person")
-//                                    .renderingMode(.original)
-//                                    .resizable()
-//                                    .padding(5)
-//                                    .frame(width: self.width, height: self.width)
-//                                    .aspectRatio(contentMode: .fit)
-//                                }
                                 
                             }
                             .buttonStyle(PlainButtonStyle())

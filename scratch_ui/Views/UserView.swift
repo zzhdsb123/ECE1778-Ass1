@@ -17,6 +17,7 @@ struct UserView: View {
     @State var selected = false
     @State var camera = false
     @State var image = UIImage()
+    @State var sign_out_alert = false
     
     var body: some View {
         GeometryReader { geo in
@@ -81,6 +82,18 @@ struct UserView: View {
                     UserImageView(width: geo.size.width / 3)
                     
                 }
+                .navigationBarItems(trailing: HStack {
+                    Button(action: {
+                        self.sign_out_alert.toggle()
+                    }) {
+                        Text("SIGN OUT")
+                    }
+                })
+                .alert(isPresented: self.$sign_out_alert, content: {
+                    Alert(title: Text("Sign out"), message: Text("Are you sure?"), primaryButton: .destructive(Text("SIGN OUT")){
+                        self.session.signOut()
+                    }, secondaryButton: .cancel())
+                })
                 .sheet(isPresented: self.$picker, content: {
                     ImageSelect(picker: self.$picker, image: self.$image, selected: self.$selected, camera: self.$camera, user_image: self.$user_image).environmentObject(self.session)
                     
@@ -109,6 +122,7 @@ struct UserView: View {
                 )
                 
             }
+                
             .onAppear {
                 self.session.loadData()
             }

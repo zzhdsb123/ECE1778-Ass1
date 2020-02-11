@@ -26,7 +26,7 @@ struct AuthView: View {
                         .padding()
                         .background(Color.gray)
                         .padding()
-                    Text("Feed")
+                    Text("Explore")
                         .padding()
             }
         }
