@@ -125,6 +125,7 @@ struct UserView: View {
                 
             .onAppear {
                 self.session.loadData()
+                self.session.loadGlobalData()
             }
         }
         

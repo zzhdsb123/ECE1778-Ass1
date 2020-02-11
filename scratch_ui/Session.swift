@@ -21,11 +21,10 @@ class Session: ObservableObject {
     @Published var user_image_list = [[UIImage?]]()
     @Published var user_image_tracker = [[String]]()
     @Published var comment_user_image = [String: UIImage]()
-    @Published var global_image_tracker = [String]()
-    @Published var global_image = [UIImage?]()
+    @Published var global_image = [ImageHelper?]()
     
     func loadGlobalData () {
-        if self.global_image_tracker.count == 0 {
+        if self.global_image.count == 0 {
             self.loadGlobalImage()
         }
     }
@@ -37,23 +36,19 @@ class Session: ObservableObject {
                 print(error!.localizedDescription)
             }
             else {
-                var temp_image_tracker = [String]()
-                temp_image_tracker = snapshot!.data()!["photos"] as! [String]
+                var temp_image_tracker = snapshot!.data()!["photos"] as! [String]
                 temp_image_tracker.reverse()
-                let additional_image_count = temp_image_tracker.count - self.global_image_tracker.count
-                let additional_image_tracker = temp_image_tracker[0..<additional_image_count]
-                self.global_image_tracker = temp_image_tracker
-                let additional_image = [UIImage?](repeating: nil, count: additional_image_tracker.count)
-                self.global_image = additional_image + self.global_image
-                for i in (0..<additional_image_count) {
-                    let image_name = additional_image_tracker[i]
+                self.global_image = [ImageHelper?](repeating: nil, count: temp_image_tracker.count)
+                for i in (0..<temp_image_tracker.count) {
+                    let image_name = temp_image_tracker[i]
                     let storage_ref = Storage.storage().reference(withPath: "photos/\(image_name)_thumbnail.jpg")
                     storage_ref.getData(maxSize: 5*1024*1024) { (data, error) in
                         if error != nil {
                             print(error!.localizedDescription)
                         }
                         else {
-                            self.global_image[i] = UIImage(data: data!)
+                            let image_helper = ImageHelper(name: image_name, image: UIImage(data: data!))
+                            self.global_image[i] = image_helper
                         }
                     }
                     
@@ -114,6 +109,7 @@ class Session: ObservableObject {
         self.user_info = [String:String]()
         self.user_image_list = [[UIImage?]]()
         self.user_image_tracker = [[String]]()
+        self.global_image = [ImageHelper?]()
         self.user_id = nil
     }
     

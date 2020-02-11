@@ -15,12 +15,24 @@ struct GlobalView: View {
         GeometryReader { geo in
             NavigationView {
                 ScrollView {
-                    Text("123")
-                    
+                    GlobalImages(width: geo.size.width)
                 }
-            }
-            .onAppear() {
-                self.session.loadGlobalData()
+                .navigationBarTitle(Text("Explore").font(.subheadline), displayMode: .inline)
+                .background(
+                Image("background")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.all)
+                )
+                .navigationBarItems(trailing: HStack {
+                    Button(action: {
+                        self.session.loadGlobalImage()
+                    }) {
+                        Text("REFRESH")
+                    }
+                    
+                    
+                })
             }
             
         }
