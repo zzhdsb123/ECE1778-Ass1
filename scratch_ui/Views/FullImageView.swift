@@ -19,7 +19,12 @@ struct FullImageView: View {
     @State var comment = ""
     @State var error_message = ""
     @State var show_error = false
+    @State var image_uploader: String?
     var name: String
+    
+    func loadCommentsUserImage () {
+        self.session.loadCommensUserImages(comments: self.comments)
+    }
     
     init (name: String) {
         self.name = name
@@ -31,13 +36,16 @@ struct FullImageView: View {
             self.show_error.toggle()
         }
         else {
-            self.session.postComment(comment: self.comment, image_name: self.name)
+            self.session.postComment(comment: self.comment, image_name: self.name) {
+                self.loadComments()
+            }
         }
     }
     
     func loadComments () {
         self.session.loadComment(image_name: self.name) { comments in
             self.comments = comments
+            self.loadCommentsUserImage()
         }
     }
     
@@ -56,20 +64,48 @@ struct FullImageView: View {
             
             VStack (alignment: .leading, spacing: 5) {
                 Group {
-                    Text("\(self.caption)")
-                        .padding()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    VStack (alignment: .leading, spacing: 0) {
+                        Text("\(self.caption)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(5)
+                            
+                        Text("\(self.hashtags)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(5)
+                            
+                    }
+                    .padding(5)
+                    .background(Color(red: 240 / 255, green: 240 / 255, blue: 240 / 255))
+                    .cornerRadius(20)
+                    .shadow(radius: 20)
                     
-                    Text("\(self.hashtags)")
-                        .padding()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer()
+                        .frame(width: 10)
                     
                     ForEach (self.comments, id: \.self) { comment in
-                        VStack (alignment: .leading) {
+                        HStack {
+                            if self.session.comment_user_image[comment["user_id"]!] != nil {
+                                Image(uiImage: self.session.comment_user_image[comment["user_id"]!]!)
+                                    .resizable()
+                                    .clipShape(Circle())
+                                    .frame(width: 40, height: 40)
+                                    .padding(5)
+                            }
+                            else {
+                                Image(systemName: "person")
+                                    .padding()
+                                    .frame(width: 40, height: 40)
+                                    .padding(5)
+                                
+                            }
+                            
                             Text(comment["username"]! + ": " + comment["comment"]!)
-                                .padding()
-                                .frame(maxWidth: .infinity)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(5)
                         }
+                        
+                                
+
                         
                         .padding(5)
                         .background(Color(red: 240 / 255, green: 240 / 255, blue: 240 / 255))
@@ -83,6 +119,8 @@ struct FullImageView: View {
                 }
                 Button(action: {
                     self.postComment()
+                    self.loadComments()
+                    self.comment = ""
                 }) {
                     Text("POST COMMENT")
                         .font(.subheadline)
@@ -112,16 +150,20 @@ struct FullImageView: View {
             self.session.getImageDetail(name: self.name) { result in
                 self.caption = result["caption"]!
                 self.hashtags = result["hash_tag"]!
+                self.image_uploader = result["uploader"]!
+                
             }
             self.loadComments()
         }
         .navigationBarItems(trailing: HStack {
-            Button(action: {
-                self.showing_delete_alert.toggle()
-            }) {
-                Image(systemName: "trash")
-                
+            if self.image_uploader == self.session.user_id {
+                Button(action: {
+                    self.showing_delete_alert.toggle()
+                }) {
+                    Image(systemName: "trash")
+                }
             }
+            
             
         })
         .alert(isPresented: $showing_delete_alert) {

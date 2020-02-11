@@ -136,7 +136,7 @@ struct SignUpView: View {
             }
         }
         .sheet(isPresented: $picker, content: {
-            ImageSelect(picker: self.$picker, image: self.$image, selected: self.$selected, camera: self.$camera, user_image: self.$user_image)
+            ImageSelect(picker: self.$picker, image: self.$image, selected: self.$selected, camera: self.$camera, user_image: self.$user_image).environmentObject(self.session)
             
         })
         .actionSheet(isPresented: $show_sheet, content: {

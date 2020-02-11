@@ -9,8 +9,22 @@
 import SwiftUI
 
 struct GlobalView: View {
+    @EnvironmentObject var session: Session
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        GeometryReader { geo in
+            NavigationView {
+                ScrollView {
+                    Text("123")
+                    
+                }
+            }
+            .onAppear() {
+                self.session.loadGlobalData()
+            }
+            
+        }
+        
     }
 }
 

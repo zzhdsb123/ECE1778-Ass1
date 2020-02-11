@@ -20,6 +20,65 @@ class Session: ObservableObject {
     @Published var auto_hashtag = true
     @Published var user_image_list = [[UIImage?]]()
     @Published var user_image_tracker = [[String]]()
+    @Published var comment_user_image = [String: UIImage]()
+    @Published var global_image_tracker = [String]()
+    @Published var global_image = [UIImage?]()
+    
+    func loadGlobalData () {
+        if self.global_image_tracker.count == 0 {
+            self.loadGlobalImage()
+        }
+    }
+    
+    func loadGlobalImage () {
+        let db = Firestore.firestore().collection("photos").document("general")
+        db.getDocument { (snapshot, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            else {
+                var temp_image_tracker = [String]()
+                temp_image_tracker = snapshot!.data()!["photos"] as! [String]
+                temp_image_tracker.reverse()
+                let additional_image_count = temp_image_tracker.count - self.global_image_tracker.count
+                let additional_image_tracker = temp_image_tracker[0..<additional_image_count]
+                self.global_image_tracker = temp_image_tracker
+                let additional_image = [UIImage?](repeating: nil, count: additional_image_tracker.count)
+                self.global_image = additional_image + self.global_image
+                for i in (0..<additional_image_count) {
+                    let image_name = additional_image_tracker[i]
+                    let storage_ref = Storage.storage().reference(withPath: "photos/\(image_name)_thumbnail.jpg")
+                    storage_ref.getData(maxSize: 5*1024*1024) { (data, error) in
+                        if error != nil {
+                            print(error!.localizedDescription)
+                        }
+                        else {
+                            self.global_image[i] = UIImage(data: data!)
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    func loadCommensUserImages (comments :[[String: String]]) {
+        for comment in comments {
+            print(comment)
+            let user_id = comment["user_id"]!
+            if self.comment_user_image[user_id] == nil {
+                let storage_ref = Storage.storage().reference(withPath: "\(user_id)/user_img_thumbnail.jpg")
+                storage_ref.getData(maxSize: 5*1024*1024) { (data, error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    }
+                    else {
+                        self.comment_user_image[user_id] = UIImage(data: data!)
+                    }
+                }
+            }
+        }
+    }
     
     func loadComment (image_name: String, completion: @escaping (_ comments: [[String: String]]) -> Void) {
         let db = Firestore.firestore().collection("photos").document(image_name)
@@ -34,7 +93,7 @@ class Session: ObservableObject {
         }
     }
     
-    func postComment (comment: String, image_name: String) {
+    func postComment (comment: String, image_name: String, completion: @escaping () -> Void) {
         let db = Firestore.firestore().collection("photos").document(image_name)
         db.getDocument { (snapshot, error) in
             if error != nil {
@@ -43,8 +102,9 @@ class Session: ObservableObject {
             else {
                 var comments = snapshot!.data()!["comment"] as! [[String: String]]
                 let new_comment = ["user_id": self.user_id!, "comment": comment, "username": self.user_info["username"]]
-                comments.append(new_comment as! [String : String])
+                comments.insert(new_comment as! [String : String], at: 0)
                 db.setData(["comment": comments], merge: true)
+                completion()
             }
         }
     }
@@ -357,20 +417,23 @@ class Session: ObservableObject {
     }
     
     func loadUserImage () {
-        let storage_ref = Storage.storage().reference(withPath: "\(String(describing: self.user_id))/user_img_thumbnail.jpg")
-        storage_ref.getData(maxSize: 5 * 1024 * 1024) { (data, error) in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-            else {
-                self.user_image = UIImage(data: data!)
+        if self.user_image == nil {
+            let storage_ref = Storage.storage().reference(withPath: "\(self.user_id!)/user_img_thumbnail.jpg")
+            storage_ref.getData(maxSize: 5 * 1024 * 1024) { (data, error) in
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+                else {
+                    self.user_image = UIImage(data: data!)
+                }
             }
         }
+        
     }
     
     func uploadUserImage(user_image: UIImage) {
 
-        let upload_ref = Storage.storage().reference(withPath: "\(String(describing: self.user_id))/user_img.jpg")
+        let upload_ref = Storage.storage().reference(withPath: "\(self.user_id!)/user_img.jpg")
         guard let image_data = user_image.jpegData(compressionQuality: 0.5) else {
             print("Oh no! Something went wrong!")
             return
@@ -384,7 +447,7 @@ class Session: ObservableObject {
         }
         
         
-        let upload_ref_thumbnail = Storage.storage().reference(withPath: "\(String(describing: self.user_id))/user_img_thumbnail.jpg")
+        let upload_ref_thumbnail = Storage.storage().reference(withPath: "\(self.user_id!)/user_img_thumbnail.jpg")
         guard let image_data_thumbnail = user_image.jpegData(compressionQuality: 0.25) else {
             print("Oh no! Something went wrong!")
             return
@@ -392,6 +455,9 @@ class Session: ObservableObject {
         upload_ref_thumbnail.putData(image_data_thumbnail, metadata: meta_data) { (junk, error) in
             if error != nil {
                 print(error!.localizedDescription)
+            }
+            else {
+                self.loadUserImage()
             }
         }
     
