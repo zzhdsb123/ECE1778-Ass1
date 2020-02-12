@@ -169,6 +169,7 @@ struct FullImageView: View {
         .alert(isPresented: $showing_delete_alert) {
             Alert(title: Text("Delete Image"), message: Text("Are you sure?"), primaryButton: .destructive(Text("DELETE")){
                 self.session.deleteImage(name: self.name)
+                self.session.loadGlobalImage()
                 self.presentationMode.wrappedValue.dismiss()
                 }, secondaryButton: .cancel())
         }
