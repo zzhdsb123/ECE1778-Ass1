@@ -29,7 +29,7 @@ struct ImageSelect: View {
                     VStack (alignment: .leading) {
                         Image(uiImage: self.image)
                         .resizable()
-                            .aspectRatio(self.session.calculateAspectRatio(image: self.image), contentMode: .fit)
+                        .aspectRatio(self.session.calculateAspectRatio(image: self.image), contentMode: .fit)
                         .frame(maxWidth: .infinity)
                         
                         if self.session.user_id != nil {

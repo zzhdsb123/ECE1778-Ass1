@@ -31,7 +31,7 @@ struct UserImageView: View {
                                     .resizable()
                                     .padding(5)
                                     .frame(width: self.width, height: self.width)
-                                    .aspectRatio(contentMode: .fit)
+                                    .aspectRatio(self.session.calculateAspectRatio(image: self.session.user_image_list[images][image]!), contentMode: .fill)
                                 }
                                 
                             }

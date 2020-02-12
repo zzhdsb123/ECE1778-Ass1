@@ -105,9 +105,6 @@ struct FullImageView: View {
                                 .padding(5)
                             }
                             
-                                    
-
-                            
                             .padding(5)
                             .background(Color(red: 240 / 255, green: 240 / 255, blue: 240 / 255))
                             .cornerRadius(20)
