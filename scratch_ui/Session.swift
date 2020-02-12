@@ -104,7 +104,7 @@ class Session: ObservableObject {
             else {
                 var comments = snapshot!.data()!["comment"] as! [[String: String]]
                 let new_comment = ["user_id": self.user_id!, "comment": comment, "username": self.user_info["username"]]
-                comments.insert(new_comment as! [String : String], at: 0)
+                comments.append(new_comment as! [String : String])
                 db.setData(["comment": comments], merge: true)
                 completion()
             }
