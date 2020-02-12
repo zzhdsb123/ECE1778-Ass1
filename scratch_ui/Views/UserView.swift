@@ -55,11 +55,10 @@ struct UserView: View {
                             else {
                                 Image(uiImage: self.session.user_image!)
                                     .resizable()
+                                    .aspectRatio(self.session.calculateAspectRatio(image: self.session.user_image!), contentMode: .fill)
                                     .frame(width: 120,
                                            height: 120,
                                            alignment: .topLeading)
-                                    .background(Color.gray)
-                                    .foregroundColor(Color.white)
                                     .clipShape(Circle())
                                     .shadow(radius: 10)
                                     .padding()
