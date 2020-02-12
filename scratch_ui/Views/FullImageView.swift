@@ -138,7 +138,6 @@ struct FullImageView: View {
             
             
             
-            
         }
         
         .onAppear() {

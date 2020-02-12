@@ -28,8 +28,8 @@ struct GlobalImages: View {
                                     Image(uiImage: image_helper!.image!)
                                         .resizable()
                                         .cornerRadius(15)
-                                        .frame(width: self.width, height: self.width)
                                         .padding(5)
+                                        .frame(width: self.width, height: self.width)
                                     
                                 }
                             }
