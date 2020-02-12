@@ -55,7 +55,7 @@ struct FullImageView: View {
             if self.image != nil {
                 Image(uiImage: self.image!)
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(self.session.calculateAspectRatio(image: self.image!), contentMode: .fit)
                 .frame(maxWidth: .infinity)
             }
             else {

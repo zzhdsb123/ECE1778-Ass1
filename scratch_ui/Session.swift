@@ -23,6 +23,13 @@ class Session: ObservableObject {
     @Published var comment_user_image = [String: UIImage]()
     @Published var global_image = [ImageHelper?]()
     
+    func calculateAspectRatio(image: UIImage) -> CGFloat {
+        let imageW = image.size.width
+        let imageH = image.size.height
+        let imageAspectRatio = imageW/imageH
+        return imageAspectRatio
+    }
+    
     func loadGlobalData () {
         if self.global_image.count == 0 {
             self.loadGlobalImage()

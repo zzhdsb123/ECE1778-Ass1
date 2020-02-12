@@ -19,7 +19,6 @@ struct ImageSelect: View {
     @State var caption = ""
     @EnvironmentObject var session: Session
     
-    
     var body: some View {
         Group {
             if self.selected == false {
@@ -30,7 +29,7 @@ struct ImageSelect: View {
                     VStack (alignment: .leading) {
                         Image(uiImage: self.image)
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
+                            .aspectRatio(self.session.calculateAspectRatio(image: self.image), contentMode: .fit)
                         .frame(maxWidth: .infinity)
                         
                         if self.session.user_id != nil {
