@@ -90,9 +90,10 @@ struct FullImageView: View {
                                 if self.session.comment_user_image[comment["user_id"]!] != nil {
                                     Image(uiImage: self.session.comment_user_image[comment["user_id"]!]!)
                                         .resizable()
+                                        .aspectRatio(self.session.calculateAspectRatio(image: self.session.user_image!), contentMode: .fill)
+                                        .frame(width: 40,
+                                               height: 40)
                                         .clipShape(Circle())
-                                        .frame(width: 40, height: 40)
-                                        .padding(5)
                                 }
                                 else {
                                     Image(systemName: "person")

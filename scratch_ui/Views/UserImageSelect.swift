@@ -30,12 +30,26 @@ struct ImageSelect: View {
         return "Enable Auto Hashtags"
     }
     
+    func sendPhoto () -> String {
+        if self.session.user_id == nil {
+            self.picker = false
+            self.user_image = self.image
+        }
+        else {
+            self.session.uploadImage (image: self.image, hash: self.hash, caption: self.caption) { (err) in
+                //
+            }
+            self.picker = false
+        }
+        return ""
+    }
+    
     var body: some View {
         Group {
             if self.selected == false {
                 ImagePickerView(isPresented: self.$picker, selectedImage: self.$image, selected: self.$selected, camera: self.$camera)
             }
-            else {
+            else if self.session.user_id != nil {
                 ScrollView {
                     VStack (alignment: .leading) {
                         Image(uiImage: self.image)
@@ -63,16 +77,7 @@ struct ImageSelect: View {
                         HStack {
                             
                             Button(action: {
-                                if self.session.user_id == nil {
-                                    self.picker = false
-                                    self.user_image = self.image
-                                }
-                                else {
-                                    self.session.uploadImage (image: self.image, hash: self.hash, caption: self.caption) { (err) in
-                                        //
-                                    }
-                                    self.picker = false
-                                }
+                                self.sendPhoto()
                                 
                             }) {
                                 Text("CONFIRM")
@@ -98,6 +103,10 @@ struct ImageSelect: View {
                 }
                 
                 
+            }
+            
+            else if self.session.user_id == nil {
+                Text(self.sendPhoto())
             }
         }
         

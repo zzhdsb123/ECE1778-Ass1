@@ -46,12 +46,10 @@ struct SignUpView: View {
                     if self.user_image != nil {
                         Image(uiImage: self.user_image!)
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 100,
-                             height: 100,
-                             alignment: .topLeading)
-                        .background(Color.gray)
-                        .foregroundColor(Color.white)
+                        .aspectRatio(self.session.calculateAspectRatio(image: self.user_image!), contentMode: .fill)
+                        .frame(width: 120,
+                               height: 120,
+                               alignment: .topLeading)
                         .clipShape(Circle())
                         .shadow(radius: 10)
                     }
