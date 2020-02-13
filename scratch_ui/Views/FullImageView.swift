@@ -160,10 +160,10 @@ struct FullImageView: View {
             
             HStack (spacing: 0) {
                 TextField("Add a comment...", text: self.$comment).padding()
-                    .background(Color(red: 240 / 255, green: 240 / 255, blue: 240 / 255))
+                    .background(Color(red: 200 / 255, green: 200 / 255, blue: 200 / 255))
                     .cornerRadius(5)
                     .padding()
-                    
+                    .opacity(0.8)
                     .frame(maxWidth: .infinity)
                 
                 Button(action: {

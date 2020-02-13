@@ -13,7 +13,7 @@ import FirebaseStorage
 struct SignInView: View {
     @State var error_msg = ""
     @State var err_show = false
-    @State var email = "test@test.com"
+    @State var email = "zzhdsb123@gmail.com"
     @State var password = "password"
     @EnvironmentObject var session: Session
     

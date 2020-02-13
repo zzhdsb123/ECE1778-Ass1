@@ -57,6 +57,7 @@ class Session: ObservableObject {
                         else {
                             let image_helper = ImageHelper(name: image_name, image: UIImage(data: data!))
                             self.global_image[i] = image_helper
+                            print(image_helper)
                         }
                     }
                     
@@ -118,6 +119,7 @@ class Session: ObservableObject {
         self.user_image_list = [[UIImage?]]()
         self.user_image_tracker = [[String]]()
         self.global_image = [ImageHelper?]()
+        self.comment_user_image = [String: UIImage]()
         self.user_id = nil
     }
     
@@ -271,6 +273,7 @@ class Session: ObservableObject {
                 images.insert(last_image, at: 0)
                 self.user_image_tracker = self.rearrage(list: images_name) as! [[String]]
                 self.user_image_list = self.rearrage(list: images) as! [[UIImage]]
+                self.loadGlobalImage()
 
             }
         }
@@ -318,7 +321,7 @@ class Session: ObservableObject {
     }
     
     func uploadImage(image: UIImage, hash: String, caption: String, completion: @escaping (_ err: String?) -> Void) {
-        print(self.user_id!)
+//        print(self.user_id!)
         let db = Firestore.firestore()
         db.collection("photos").document("general").getDocument { (document, error) in
             if error != nil {

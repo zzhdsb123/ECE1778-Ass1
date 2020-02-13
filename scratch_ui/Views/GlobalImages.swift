@@ -38,9 +38,12 @@ struct GlobalImages: View {
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
-                    
-                    
                 }
+                Text("")
+                .padding()
+                .frame(width: self.width * 0.97, height: 1)
+                .cornerRadius(10)
+                .padding()
             }
             
             

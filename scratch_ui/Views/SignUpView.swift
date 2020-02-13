@@ -12,11 +12,11 @@ import FirebaseFirestore
 import FirebaseStorage
 
 struct SignUpView: View {
-    @State var email = "test@test.com"
-    @State var password = "password"
-    @State var confirm_password = "password"
-    @State var username = "Artorias"
-    @State var bio = "I am a banana"
+    @State var email = ""
+    @State var password = ""
+    @State var confirm_password = ""
+    @State var username = ""
+    @State var bio = ""
     @State var error_msg = ""
     @State var err_show = false
     @State var picker = false
