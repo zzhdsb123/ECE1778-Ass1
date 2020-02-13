@@ -29,9 +29,12 @@ struct UserImageView: View {
                                     Image(uiImage: self.session.user_image_list[images][image]!)
                                     .renderingMode(.original)
                                     .resizable()
-                                    .padding(5)
-                                    .frame(width: self.width, height: self.width)
                                     .aspectRatio(self.session.calculateAspectRatio(image: self.session.user_image_list[images][image]!), contentMode: .fill)
+                                    .frame(width: self.width! * 0.95, height: self.width! * 0.95)
+                                    .mask(Rectangle().size(width: self.width! * 0.95, height: self.width! * 0.95).cornerRadius(10))
+                                    .clipped()
+                                    .padding(2)
+
                                 }
                                 
                             }

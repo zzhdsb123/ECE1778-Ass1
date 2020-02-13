@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct FullImageView: View {
     @EnvironmentObject var session: Session
@@ -50,6 +51,7 @@ struct FullImageView: View {
     }
     
     var body: some View {
+        
         VStack {
             ScrollView {
                 

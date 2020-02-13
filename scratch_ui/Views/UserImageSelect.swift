@@ -19,6 +19,17 @@ struct ImageSelect: View {
     @State var caption = ""
     @EnvironmentObject var session: Session
     
+    func hashTag (hash_tag: Bool) -> String {
+        if hash_tag {
+            self.session.labelImage(image: self.image) { (hash) in
+                if hash != nil {
+                    self.hash = hash!
+                }
+            }
+        }
+        return "Enable Auto Hashtags"
+    }
+    
     var body: some View {
         Group {
             if self.selected == false {
@@ -39,7 +50,12 @@ struct ImageSelect: View {
                             TextField("Hashtags", text: self.$hash)
                                 .padding()
                             Toggle(isOn: self.$session.auto_hashtag) {
-                                Text("Enable Auto Hashtags")
+                                if self.session.auto_hashtag {
+                                    Text(self.hashTag(hash_tag: self.session.auto_hashtag))
+                                }
+                                else {
+                                    Text(self.hashTag(hash_tag: self.session.auto_hashtag))
+                                }
                             }
                                 .padding()
                         }

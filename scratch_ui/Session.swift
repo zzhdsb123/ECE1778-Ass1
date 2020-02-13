@@ -13,11 +13,12 @@ import FirebaseStorage
 import FirebaseAuth
 import Firebase
 
+
 class Session: ObservableObject {
     @Published var user_id: String?
     @Published var user_image: UIImage?
     @Published var user_info = [String:String]()
-    @Published var auto_hashtag = true
+    @Published var auto_hashtag = false
     @Published var user_image_list = [[UIImage?]]()
     @Published var user_image_tracker = [[String]]()
     @Published var comment_user_image = [String: UIImage]()
